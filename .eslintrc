@@ -1,0 +1,121 @@
+{
+  "plugins": [
+    "react-hooks",
+    "unused-imports",
+    "prettier",
+    "sonarjs"
+  ],
+  "extends": [
+    "plugin:cypress/recommended",
+    "next",
+    "next/core-web-vitals",
+    "prettier",
+    "plugin:sonarjs/recommended",
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:jsx-a11y/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "cypress/globals": true,
+    "jest": true
+  },
+  "rules": {
+    "prettier/prettier": [
+      "warn",
+      {
+        "semi": false,
+        "endOfLine": "auto"
+      }
+    ],
+    "new-cap": "warn",
+    "max-len": [
+      "warn",
+      {
+        "code": 80,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreComments": true,
+        "ignoreTemplateLiterals": true
+      }
+    ],
+    "curly": ["error", "multi-line"],
+    "no-undef": "error",
+    "no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "no-nested-ternary": "off",
+    "camelcase": "off",
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/display-name": "off",
+    "react/prefer-stateless-function": "error",
+    "react/destructuring-assignment": "warn",
+    "react/jsx-no-target-blank": "off",
+    "react/jsx-no-useless-fragment": "error",
+    "react/jsx-uses-react": "warn",
+    "react/jsx-uses-vars": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "off",
+    "react/jsx-no-script-url": [
+      "warn",
+      [
+        {
+          "name": "Link",
+          "props": ["href"]
+        }
+      ]
+    ],
+    "sort-imports": [
+      "warn",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["all", "multiple", "single", "none"]
+      }
+    ],
+    "@next/next/no-html-link-for-pages": "off",
+    "@next/next/no-img-element": "off",
+    "@next/next/no-sync-scripts": "off",
+    "sonarjs/no-nested-template-literals": "off",
+    "sonarjs/no-unused-collection": "off",
+    "import/no-named-as-default": "off",
+    "import/named": "off"
+  },
+  "globals": {
+    "Promise": true,
+    "process": true
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test.js", "**/*.test.jsx"],
+      "env": {
+        "jest": true
+      }
+    }
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "linkComponents": ["Hyperlink", { "name": "Link", "linkAttribute": "href" }]
+  }
+}
