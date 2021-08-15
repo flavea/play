@@ -5,7 +5,7 @@ import Generator from 'components/ImageGenerator'
 export const ImageGenerator = () => {
   const desc =
     'Online image editor using simple CSS variables, can be saved as image.'
-  const title = '{title}'
+  const title = 'CSS Image Editor'
   return (
     <>
       <Head>
