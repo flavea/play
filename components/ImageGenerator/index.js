@@ -8,6 +8,8 @@ import { toJpeg } from 'html-to-image'
 import Cropper from 'react-cropper'
 import 'cropperjs/dist/cropper.css'
 import { filtersData, initialFilters, symbols } from './constants'
+// eslint-disable-next-line import/no-unresolved
+import OrientationWarning from 'components/OrientationWarning'
 
 export const ImageGenerator = () => {
   const [width, setWidth] = useState(500)
@@ -61,6 +63,7 @@ export const ImageGenerator = () => {
         } else return null
       })
       .filter((f) => f)
+
     const str = strings.join(' ')
     if (str.trim()) setStyle({ ...style, filter: str })
     else if (style?.filter) {
@@ -175,6 +178,26 @@ export const ImageGenerator = () => {
     img.src = imageUrl
   }, [imageUrl])
 
+  useEffect(() => {
+    const calculate = () => {
+      const container = document.getElementById('image-container')
+      const styles = window.getComputedStyle(container)
+      const containerW =
+        container.clientWidth -
+        parseFloat(styles.paddingLeft) -
+        parseFloat(styles.paddingRight)
+      const total = width * 2
+
+      if (total <= containerW) {
+        container.classList.remove('uk-flex-column')
+      } else {
+        container.classList.add('uk-flex-column')
+      }
+    }
+    calculate()
+    window.addEventListener('resize', calculate)
+  }, [width])
+
   const BlendList = ({ target }) => (
     <div className="uk-margin">
       <div className="uk-form-span">
@@ -207,309 +230,316 @@ export const ImageGenerator = () => {
   )
 
   return (
-    <Container>
-      <Content className="uk-background-muted uk-padding uk-overflow-auto">
-        <form>
-          <div className="uk-margin">
-            <b className="uk-form-span">Image</b>
+    <>
+      <OrientationWarning mobileOnly={true} />
+      <Container>
+        <Content className="uk-background-muted uk-padding uk-overflow-auto">
+          <form>
             <div className="uk-margin">
-              <span className="uk-text-middle">
-                <input
-                  className="uk-input"
-                  type="url"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                />
-              </span>
-              <center>Or</center>
-              <div className="upload-form">
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple={false}
-                  onChange={process}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="uk-margin uk-flex uk-flex-middle">
-            <div>
-              <div className="uk-form-span">width (px)</div>
-              <input
-                className="uk-input"
-                type="number"
-                value={width}
-                min="1"
-                step="10"
-                onChange={(e) => setWidth(Number(e.target.value))}
-              />
-            </div>
-            <div>
-              <div className="uk-form-span">Height (px)</div>
-              <input
-                className="uk-input"
-                type="number"
-                value={height}
-                min="1"
-                step="10"
-                onChange={(e) => setHeight(Number(e.target.value))}
-              />
-            </div>
-          </div>
-          <div className="uk-margin">
-            <span className="uk-form-span">Background Color</span>
-            <input
-              value={background || '#ffffff'}
-              type="color"
-              className="uk-input"
-              onChange={(e) => setBackground(e.target.value)}
-            />
-          </div>
-          <BlendList target="image"></BlendList>
-          <div className="uk-margin uk-flex uk-flex-center uk-flex-between">
-            <div>
-              <div className="uk-form-span">Border Size</div>
-              <div className="uk-margin-small">
-                <input
-                  className="uk-input"
-                  type="number"
-                  value={borderSize}
-                  min="0"
-                  step="1"
-                  onChange={(e) => setBorderSize(Number(e.target.value))}
-                  style={{ width: 90 }}
-                />
-              </div>
-            </div>
-            <div>
-              <div className="uk-form-span">Border Type</div>
-              <div className="uk-margin-small">
-                <select
-                  className="uk-select"
-                  onBlur={(e) => setBorderStyle(e.target.value)}
-                  defaultValue="solid"
-                >
-                  <option value="solid">Solid</option>
-                  <option value="dashed">Dashed</option>
-                  <option value="dotted">Dotted</option>
-                </select>
-              </div>
-            </div>
-            <div>
-              <div className="uk-form-span">Border Color</div>
-              <div className="uk-margin-small">
-                <input
-                  value={borderColor || '#ffffff'}
-                  type="color"
-                  className="uk-input"
-                  onChange={(e) => setBorderColor(e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="uk-margin">
-            <b className="uk-form-span uk-margin-small-right">
-              Rounded Corner{' '}
-              <small>(top-left, top-right, bottom-right, bottom -left)</small>
-            </b>
-            <input
-              className="uk-input"
-              type="text"
-              value={borderRadius}
-              onChange={(e) => setBorderRadius(e.target.value)}
-            />
-          </div>
-          {filtersData.map((f) => {
-            const props = {
-              value: filters[f.type],
-              min: f.min,
-              max: f.max,
-              step: f.step,
-              onChange: (e) => updateFilter(f.type, e.target.value),
-            }
-            return (
-              <div className="uk-flex uk-flex-middle uk-margin" key={f.type}>
-                <b className="uk-form-span uk-margin-small-right">{f.type}</b>
-                <input
-                  className="uk-range uk-margin-small-right"
-                  type="range"
-                  {...props}
-                />
-                <input
-                  className="uk-input"
-                  type="number"
-                  {...props}
-                  style={{
-                    width: 90,
-                  }}
-                />
-              </div>
-            )
-          })}
-          <div className="uk-margin">
-            <b className="uk-form-span uk-margin-small-right">Drop Shadow</b>
-            <input
-              className="uk-input"
-              type="text"
-              value={filters['drop-shadow']}
-              onChange={(e) => updateFilter('drop-shadow', e.target.value)}
-            />
-          </div>
-          <div className="uk-margin">
-            <b className="uk-form-span uk-margin-small-right">
-              Drop Shadow Color
-              <small>(offset-x, offset-y, blur size)</small>
-            </b>
-            <input
-              className="uk-input"
-              type="color"
-              value={dropShadow}
-              onChange={(e) => {
-                setDropShadow(e.target.value)
-              }}
-            />
-          </div>
-
-          <div className="uk-margin">
-            <label>
-              <input
-                className="uk-checkbox"
-                type="checkbox"
-                checked={overlay}
-                onChange={(e) => setOverlay(e.target.checked)}
-              />{' '}
-              Add Overlay
-            </label>
-          </div>
-          {overlay ? (
-            <>
-              <BlendList />
-              <div className="uk-flex uk-flex-middle uk-margin">
-                <b className="uk-form-span uk-margin-small-right">
-                  Overlay Opacity
-                </b>
-                <input
-                  className="uk-range uk-margin-small-right"
-                  type="range"
-                  min={0}
-                  max={1}
-                  step={0.1}
-                  value={overlayOpacity}
-                  onChange={(e) => setOverlayOpacity(Number(e.target.value))}
-                />
-                <input
-                  className="uk-input"
-                  type="number"
-                  min={0}
-                  max={1}
-                  step={0.1}
-                  value={overlayOpacity}
-                  onChange={(e) => setOverlayOpacity(Number(e.target.value))}
-                  style={{
-                    width: 90,
-                  }}
-                />
-              </div>
+              <b className="uk-form-span">Image</b>
               <div className="uk-margin">
-                <span className="uk-form-span">Overlay Color</span>
-                <input
-                  value={overlayColor}
-                  type="color"
-                  className="uk-input"
-                  onChange={(e) => setOverlayColor(e.target.value)}
-                />
-              </div>
-            </>
-          ) : null}
-        </form>
-      </Content>
-      <Content className="uk-overflow-auto">
-        <div className="code uk-background-muted uk-padding-small">
-          <CopyToClipboard text={code} onCopy={() => setCopied(true)}>
-            <button className="uk-button uk-button-primary uk-button-small uk-margin-small-right">
-              Copy Code
-            </button>
-          </CopyToClipboard>
-          or{' '}
-          {resultUrl && (
-            <>
-              <a
-                className="uk-button uk-button-primary uk-button-small uk-margin-small-left uk-margin-small-right"
-                href={resultUrl}
-                download={`${uuidv4()}.jpg`}
-              >
-                Download as Image
-              </a>
-              (if not working, click right and open in new tab)
-            </>
-          )}
-          <pre>
-            <code>{code}</code>
-          </pre>
-          {copied ? (
-            <div className="uk-alert-success" uk-alert>
-              <p>Code copied to clipboard</p>
-            </div>
-          ) : null}
-        </div>
-        <div className="uk-flex uk-padding uk-flex-column uk-flex-center uk-flex-middle ">
-          <div>
-            Before:
-            <br />
-            <img
-              src={imageUrl}
-              style={{
-                width: width + 2 * Number(borderSize),
-                height: height + 2 * Number(borderSize),
-                objectFit: 'cover',
-              }}
-              alt="Before"
-            />
-          </div>
-          <div>
-            After:
-            <div
-              id="image"
-              style={{
-                width: width + 2 * Number(borderSize),
-                height: height + 2 * Number(borderSize),
-              }}
-            >
-              {overlay ? (
-                <div
-                  style={{
-                    width,
-                    height,
-                    background,
-                    position: 'relative',
-                  }}
-                >
-                  <img src={imageUrl} style={style} alt="Cat" />
-                  <div
-                    style={{
-                      opacity: overlayOpacity,
-                      background: overlayColor,
-                      mixBlendMode: overlayBlend,
-                      width: '100%',
-                      height: '100%',
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                    }}
+                <span className="uk-text-middle">
+                  <input
+                    className="uk-input"
+                    type="url"
+                    value={imageUrl}
+                    onChange={(e) => setImageUrl(e.target.value)}
+                  />
+                </span>
+                <center className="uk-margin-small-top uk-margin-small-bottom">
+                  Or
+                </center>
+                <div className="upload-form">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple={false}
+                    onChange={process}
                   />
                 </div>
-              ) : cropping ? (
-                <Cropper
-                  src={imageUrl}
-                  // Cropper.js options
-                  initialAspectRatio={16 / 9}
-                  guides={false}
-                  crop={onCrop}
-                  ref={cropperRef}
+              </div>
+            </div>
+            <div className="uk-margin uk-flex uk-flex-middle">
+              <div>
+                <div className="uk-form-span">width (px)</div>
+                <input
+                  className="uk-input"
+                  type="number"
+                  value={width}
+                  min="1"
+                  step="10"
+                  onChange={(e) => setWidth(Number(e.target.value))}
                 />
-              ) : (
-                <img src={imageUrl} style={style} alt="" />
-              )}
+              </div>
+              <div>
+                <div className="uk-form-span">Height (px)</div>
+                <input
+                  className="uk-input"
+                  type="number"
+                  value={height}
+                  min="1"
+                  step="10"
+                  onChange={(e) => setHeight(Number(e.target.value))}
+                />
+              </div>
+            </div>
+            <div className="uk-margin">
+              <span className="uk-form-span">Background Color</span>
+              <input
+                value={background || '#ffffff'}
+                type="color"
+                className="uk-input"
+                onChange={(e) => setBackground(e.target.value)}
+              />
+            </div>
+            <BlendList target="image"></BlendList>
+            <div className="border uk-margin uk-flex-center uk-flex-between">
+              <div className="uk-flex-1">
+                <div className="uk-form-span">Border Size</div>
+                <div className="uk-margin-small">
+                  <input
+                    className="uk-input"
+                    type="number"
+                    value={borderSize}
+                    min="0"
+                    step="1"
+                    onChange={(e) => setBorderSize(Number(e.target.value))}
+                  />
+                </div>
+              </div>
+              <div className="uk-flex-1">
+                <div className="uk-form-span">Border Type</div>
+                <div className="uk-margin-small">
+                  <select
+                    className="uk-select"
+                    onBlur={(e) => setBorderStyle(e.target.value)}
+                    defaultValue="solid"
+                  >
+                    <option value="solid">Solid</option>
+                    <option value="dashed">Dashed</option>
+                    <option value="dotted">Dotted</option>
+                  </select>
+                </div>
+              </div>
+              <div className="uk-flex-1">
+                <div className="uk-form-span">Border Color</div>
+                <div className="uk-margin-small">
+                  <input
+                    value={borderColor || '#ffffff'}
+                    type="color"
+                    className="uk-input"
+                    onChange={(e) => setBorderColor(e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="uk-margin">
+              <b className="uk-form-span uk-margin-small-right">
+                Rounded Corner{' '}
+                <small>(top-left, top-right, bottom-right, bottom -left)</small>
+              </b>
+              <input
+                className="uk-input"
+                type="text"
+                value={borderRadius}
+                onChange={(e) => setBorderRadius(e.target.value)}
+              />
+            </div>
+            <div className="uk-margin ">
+              <label className="uk-button uk-button-primary uk-light uk-display-block">
+                <input
+                  className="uk-checkbox uk-margin-small-right"
+                  type="checkbox"
+                  checked={overlay}
+                  onChange={(e) => setOverlay(e.target.checked)}
+                />{' '}
+                Add Overlay
+              </label>
+            </div>
+            {overlay ? (
+              <>
+                <BlendList />
+                <div className="border uk-flex uk-flex-middle uk-margin">
+                  <b className="uk-form-span uk-margin-small-right">
+                    Overlay Opacity
+                  </b>
+                  <div className="uk-flex uk-flex-middle uk-flex-1">
+                    <input
+                      className="uk-range uk-margin-small-right"
+                      type="range"
+                      min={0}
+                      max={1}
+                      step={0.1}
+                      value={overlayOpacity}
+                      onChange={(e) =>
+                        setOverlayOpacity(Number(e.target.value))
+                      }
+                    />
+                    <input
+                      className="uk-input"
+                      type="number"
+                      min={0}
+                      max={1}
+                      step={0.1}
+                      value={overlayOpacity}
+                      onChange={(e) =>
+                        setOverlayOpacity(Number(e.target.value))
+                      }
+                      style={{
+                        width: 90,
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="uk-margin">
+                  <span className="uk-form-span">Overlay Color</span>
+                  <input
+                    value={overlayColor}
+                    type="color"
+                    className="uk-input"
+                    onChange={(e) => setOverlayColor(e.target.value)}
+                  />
+                </div>
+              </>
+            ) : null}
+            {filtersData.map((f) => {
+              const props = {
+                value: filters[f.type],
+                min: f.min,
+                max: f.max,
+                step: f.step,
+                onChange: (e) => updateFilter(f.type, e.target.value),
+              }
+              return (
+                <div className="border uk-flex-middle uk-margin" key={f.type}>
+                  <b className="uk-form-span uk-margin-small-right">{f.type}</b>
+                  <div className="uk-flex uk-flex-middle uk-flex-1">
+                    <input
+                      className="uk-range uk-margin-small-right"
+                      type="range"
+                      {...props}
+                    />
+                    <input
+                      className="uk-input"
+                      type="number"
+                      {...props}
+                      style={{
+                        width: 90,
+                      }}
+                    />
+                  </div>
+                </div>
+              )
+            })}
+            <div className="uk-margin">
+              <b className="uk-form-span uk-margin-small-right">Drop Shadow</b>
+              <input
+                className="uk-input"
+                type="text"
+                value={filters['drop-shadow']}
+                onChange={(e) => updateFilter('drop-shadow', e.target.value)}
+              />
+            </div>
+            <div className="uk-margin">
+              <b className="uk-form-span uk-margin-small-right">
+                Drop Shadow Color
+                <small>(offset-x, offset-y, blur size)</small>
+              </b>
+              <input
+                className="uk-input"
+                type="color"
+                value={dropShadow}
+                onChange={(e) => {
+                  setDropShadow(e.target.value)
+                }}
+              />
+            </div>
+          </form>
+        </Content>
+        <Content className="uk-overflow-auto">
+          <div className="code uk-background-muted uk-padding-small">
+            <CopyToClipboard text={code} onCopy={() => setCopied(true)}>
+              <button className="uk-button uk-button-primary uk-button-small uk-margin-small-right">
+                Copy Code
+              </button>
+            </CopyToClipboard>
+            or{' '}
+            {resultUrl && (
+              <>
+                <a
+                  className="uk-button uk-button-primary uk-button-small uk-margin-small-left uk-margin-small-right"
+                  href={resultUrl}
+                  download={`${uuidv4()}.jpg`}
+                >
+                  Download as Image
+                </a>
+                (if not working, click right and open in new tab)
+              </>
+            )}
+            <pre>
+              <code>{code}</code>
+            </pre>
+            {copied ? (
+              <div className="uk-alert-success" uk-alert>
+                <p>Code copied to clipboard</p>
+              </div>
+            ) : null}
+          </div>
+          <div
+            id="image-container"
+            className="uk-flex uk-padding uk-flex-column uk-flex-center uk-flex-middle "
+          >
+            <div>
+              <div className="uk-label uk-margin-small">Before</div>
+              <img
+                src={imageUrl}
+                style={{
+                  width,
+                  height,
+                  objectFit: 'cover',
+                }}
+                alt="Before"
+              />
+            </div>
+            <div>
+              <div className="uk-label uk-margin-small">After</div>
+              <div id="image">
+                {overlay ? (
+                  <div
+                    style={{
+                      width: width + 2 * Number(borderSize),
+                      height: height + 2 * Number(borderSize),
+                      background,
+                      position: 'relative',
+                    }}
+                  >
+                    <img src={imageUrl} style={style} alt="Cat" />
+                    <div
+                      style={{
+                        opacity: overlayOpacity,
+                        background: overlayColor,
+                        mixBlendMode: overlayBlend,
+                        width: '100%',
+                        height: '100%',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                      }}
+                    />
+                  </div>
+                ) : cropping ? (
+                  <Cropper
+                    src={imageUrl}
+                    // Cropper.js options
+                    initialAspectRatio={16 / 9}
+                    guides={false}
+                    crop={onCrop}
+                    ref={cropperRef}
+                  />
+                ) : (
+                  <img src={imageUrl} style={style} alt="" />
+                )}
+              </div>
             </div>
           </div>
           <div>
@@ -537,9 +567,9 @@ export const ImageGenerator = () => {
               </div>
             </center>
           </div>
-        </div>
-      </Content>
-    </Container>
+        </Content>
+      </Container>
+    </>
   )
 }
 
