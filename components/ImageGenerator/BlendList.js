@@ -2,12 +2,7 @@
 const BlendList = ({ label, onChange, value }) => (
   <div className="uk-margin-small uk-flex uk-flex-middle">
     <div className="uk-form-span uk-text-bold uk-width-1-2">{label}</div>
-    <select
-      className="uk-select"
-      onChange={onChange}
-      value={value}
-      defaultValue="normal"
-    >
+    <select className="uk-select" onChange={onChange} value={value}>
       <option>normal</option>
       <option>multiply</option>
       <option>screen</option>

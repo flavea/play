@@ -42,6 +42,7 @@ export const useImageGenerator = () => {
   const [overlayColor, setOverlayColor] = useState('#000000')
   const [overlayOpacity, setOverlayOpacity] = useState(0.6)
   const [resultUrl, setResultUrl] = useState(null)
+  const [mirror, setMirror] = useState(false)
   const dropShadowKey = 'drop-shadow'
 
   const reset = () => {
@@ -63,6 +64,7 @@ export const useImageGenerator = () => {
     setOverlayColor('#000000')
     setOverlayOpacity(0.6)
     setResultUrl(null)
+    setMirror(false)
   }
 
   const filterStringGen = () => {
@@ -145,6 +147,25 @@ export const useImageGenerator = () => {
       height,
     })
   }, [width, height])
+
+  useEffect(() => {
+    if (sameBorder) {
+      setBorderSize(defaultBorderSize)
+      setBorderStyle(defaultBorderStyle)
+      setBorderColor(defaultBorderColor)
+      deleteStyle('borderLeft')
+      deleteStyle('borderTop')
+      deleteStyle('borderRight')
+      deleteStyle('borderBottom')
+    }
+  }, [sameBorder])
+
+  useEffect(() => {
+    if (sameRadius) {
+      setBorderRadius(defaultBorderRadius)
+      deleteStyle('borderRadius')
+    }
+  }, [sameRadius])
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
@@ -257,6 +278,14 @@ export const useImageGenerator = () => {
     }
   }, [dropShadow, offsetX, offsetY, dropShadowBlur])
 
+  useEffect(() => {
+    if (mirror) {
+      setStyle({ ...style, transform: 'scaleX(-1)' })
+    } else {
+      deleteStyle('transform')
+    }
+  }, [mirror])
+
   return {
     width,
     height,
@@ -304,6 +333,8 @@ export const useImageGenerator = () => {
     sameBorder,
     setSameBorder,
     reset,
+    setMirror,
+    mirror,
   }
 }
 

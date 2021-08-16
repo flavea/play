@@ -58,6 +58,8 @@ export const ImageGenerator = () => {
     sameBorder,
     setSameBorder,
     reset,
+    setMirror,
+    mirror,
   } = useImageGenerator()
 
   const borderProps = {
@@ -126,6 +128,12 @@ export const ImageGenerator = () => {
       <Container>
         <Content className="uk-background-muted uk-padding uk-overflow-auto uk-text-small">
           <form>
+            <button
+              className="uk-button uk-button-secondary"
+              onClick={() => setMirror(!mirror)}
+            >
+              {mirror ? 'Reset Mirror' : 'Mirror Image'}
+            </button>
             <button className="uk-button uk-button-danger" onClick={reset}>
               Reset Styling
             </button>
@@ -159,7 +167,7 @@ export const ImageGenerator = () => {
                   className="uk-input"
                   type="number"
                   value={width}
-                  min="1"
+                  min="0"
                   step="10"
                   onChange={(e) => setWidth(Number(e.target.value))}
                 />
@@ -170,7 +178,7 @@ export const ImageGenerator = () => {
                   className="uk-input"
                   type="number"
                   value={height}
-                  min="1"
+                  min="0"
                   step="10"
                   onChange={(e) => setHeight(Number(e.target.value))}
                 />
@@ -193,7 +201,9 @@ export const ImageGenerator = () => {
               value={style?.mixBlendMode}
             />
             <Overlay {...overlayProps} />
-            <h4 className="uk-heading-line">Filters</h4>
+            <h4 className="uk-heading-line uk-margin-top uk-margin-small-bottom">
+              Filters
+            </h4>
             {filtersData.map((f) => {
               const props = {
                 value: filters[f.type],

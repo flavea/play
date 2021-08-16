@@ -151,7 +151,6 @@ export const Border = (props) => {
                   <select
                     className="uk-select"
                     onChange={(e) => updateBorder('type', b, e.target.value)}
-                    defaultValue="solid"
                     value={borderStyle[b]}
                   >
                     <option value="solid">Solid</option>
@@ -190,7 +189,10 @@ export const Border = (props) => {
       <div className="uk-margin-small">
         {radiuses.map((b, i) =>
           sameRadius && i > 0 ? null : (
-            <div className="border uk-flex-middle uk-margin-small">
+            <div
+              key={b.label}
+              className="border uk-flex-middle uk-margin-small"
+            >
               {!sameRadius ? (
                 <b className="uk-form-span uk-margin-small-right">{b.label}</b>
               ) : null}

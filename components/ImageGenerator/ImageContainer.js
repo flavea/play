@@ -118,10 +118,10 @@ export const ImageComponent = (props) => {
         <div className="uk-margin-small-bottom">
           <div className="uk-label uk-margin-small">After</div>
           <div id="image">
-            {overlay ? (
+            {overlay || background ? (
               <div style={containerStyle}>
                 <img src={imageUrl} style={style} alt="Cat" />
-                <div style={overlayStyle} />
+                {overlay ? <div style={overlayStyle} /> : null}
               </div>
             ) : cropping ? (
               <Cropper

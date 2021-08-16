@@ -14,7 +14,7 @@ export const Dropshadow = (props) => {
 
   return (
     <>
-      <h4 className="uk-heading-line">Drop Shadow</h4>
+      <h4 className="uk-heading-line uk-margin-small">Drop Shadow</h4>
       <div className="border uk-flex-middle uk-margin-small">
         <b className="uk-form-span uk-margin-small-right">Offset X</b>
         <div className="uk-flex uk-flex-middle uk-flex-1">
