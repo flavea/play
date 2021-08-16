@@ -34,20 +34,14 @@ export const ImageGenerator = () => {
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={desc} />
-        <meta
-          property="og:image"
-          content="https://images2.imgbox.com/3d/98/4eVaQfCI_o.jpg"
-        />
-        <meta name="twitter:card" content="summary" />
+        <meta property="og:image" content="https://play.ilma.dev/card.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@iarifiany" />
         <meta name="twitter:creator" content="@iarifiany" />
         <meta name="twitter:url" content="https://play.ilma.dev/image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={desc} />
-        <meta
-          name="twitter:image"
-          content="https://images2.imgbox.com/3d/98/4eVaQfCI_o.jpg"
-        />
+        <meta name="twitter:image" content="https://play.ilma.dev/card.jpg" />
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=UA-44755840-3`}
