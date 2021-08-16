@@ -4,7 +4,7 @@ import Generator from 'components/ImageGenerator'
 
 export const ImageGenerator = () => {
   const desc =
-    'Online image editor using simple CSS variables, can be saved as image.'
+    'Online image editor using simple CSS variables that will generate an image code and can be saved as an image.'
   const title = 'CSS Image Editor'
   return (
     <>
@@ -16,7 +16,7 @@ export const ImageGenerator = () => {
         <meta itemProp="description" content={desc} />
         <meta
           name="keywords"
-          content="Image editor, online image editor, css image editor, css filters"
+          content="Image editor, online image editor, css image editor, css filters, css image generator, image filters generator."
         />
         <meta name="theme-color" content="##7d7d7d" />
         <meta name="mobile-web-app-capable" content="yes" />

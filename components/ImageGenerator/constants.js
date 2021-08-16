@@ -72,3 +72,31 @@ export const symbols = {
   blur: 'px',
   'hue-rotate': 'deg',
 }
+
+export const defaultBorderSize = {
+  left: 0,
+  bottom: 0,
+  top: 0,
+  right: 0,
+}
+
+export const defaultBorderStyle = {
+  left: 'solid',
+  bottom: 'solid',
+  top: 'solid',
+  right: 'solid',
+}
+
+export const defaultBorderColor = {
+  left: '#000000',
+  bottom: '#000000',
+  top: '#000000',
+  right: '#000000',
+}
+
+export const defaultBorderRadius = {
+  tl: 0,
+  tr: 0,
+  bl: 0,
+  br: 0,
+}

@@ -42,4 +42,8 @@ export const Content = styled.div`
       display: block;
     }
   }
+
+  .small-input {
+    width: 90px;
+  }
 `
