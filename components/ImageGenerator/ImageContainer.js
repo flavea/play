@@ -3,6 +3,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Cropper from 'react-cropper'
 import 'cropperjs/dist/cropper.css'
 import { useRef, useState } from 'react'
+import uuid from 'helpers/uuid'
 
 export const ImageComponent = (props) => {
   const [cropData, setCropData] = useState(null)
@@ -35,14 +36,6 @@ export const ImageComponent = (props) => {
     const data = cropper.getCropBoxData()
     setCropData(data)
     setCropImage(cropper.getCroppedCanvas().toDataURL())
-  }
-
-  const uuidv4 = () => {
-    return 'xxxxxxxx'.replace(/[xy]/g, function (c) {
-      var r = (Math.random() * 16) | 0,
-        v = c == 'x' ? r : (r & 0x3) | 0x8
-      return v.toString(8)
-    })
   }
 
   const containerStyle = {
@@ -83,7 +76,7 @@ export const ImageComponent = (props) => {
             <a
               className="uk-button uk-button-primary uk-button-small uk-margin-small-left uk-margin-small-right"
               href={resultUrl}
-              download={`${uuidv4()}.${ext}`}
+              download={`${uuid()}.${ext}`}
             >
               Download as Image
             </a>

@@ -1,7 +1,6 @@
 import { Container, Content } from './styled'
 import 'cropperjs/dist/cropper.css'
 import { filtersData } from './constants'
-// eslint-disable-next-line import/no-unresolved
 import OrientationWarning from 'components/OrientationWarning'
 import BlendList from './BlendList'
 import useImageGenerator from './useImageGenerator'

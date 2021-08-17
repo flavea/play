@@ -98,7 +98,9 @@
     "sonarjs/no-nested-template-literals": "off",
     "sonarjs/no-unused-collection": "off",
     "import/no-named-as-default": "off",
-    "import/named": "off"
+    "import/named": "off",
+    "import/no-unresolved": "off",
+    "sonarjs/cognitive-complexity": ["error", 20]
   },
   "globals": {
     "Promise": true,

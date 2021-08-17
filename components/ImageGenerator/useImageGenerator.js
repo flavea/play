@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { toJpeg } from 'html-to-image'
+import { toJpeg, toPng, toSvg } from 'html-to-image'
 import {
   defaultBorderColor,
   defaultBorderRadius,
@@ -117,9 +117,19 @@ export const useImageGenerator = () => {
 
   const save = () => {
     setTimeout(() => {
-      toJpeg(document.getElementById('image')).then(function (dataUrl) {
-        setResultUrl(dataUrl)
-      })
+      if (ext === 'png') {
+        toPng(document.getElementById('image')).then(function (dataUrl) {
+          setResultUrl(dataUrl)
+        })
+      } else if (ext === 'svg') {
+        toSvg(document.getElementById('image')).then(function (dataUrl) {
+          setResultUrl(dataUrl)
+        })
+      } else {
+        toJpeg(document.getElementById('image')).then(function (dataUrl) {
+          setResultUrl(dataUrl)
+        })
+      }
     }, 1000)
   }
 
