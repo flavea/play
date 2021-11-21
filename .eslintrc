@@ -1,10 +1,5 @@
 {
-  "plugins": [
-    "react-hooks",
-    "unused-imports",
-    "prettier",
-    "sonarjs"
-  ],
+  "plugins": ["react-hooks", "unused-imports", "prettier", "sonarjs"],
   "extends": [
     "plugin:cypress/recommended",
     "next",
@@ -84,7 +79,7 @@
       ]
     ],
     "sort-imports": [
-      "warn",
+      "off",
       {
         "ignoreCase": true,
         "ignoreDeclarationSort": true,

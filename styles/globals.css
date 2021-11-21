@@ -11,6 +11,16 @@ a {
   text-decoration: none;
 }
 
+em,
+i {
+  color: #666;
+}
+
 * {
   box-sizing: border-box;
+}
+
+blockquote {
+  border-left: 1px solid #b5b5b5;
+  padding-left: 10px;
 }
