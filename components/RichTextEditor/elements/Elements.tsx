@@ -1,5 +1,4 @@
 import React from 'react'
-import CodeBlock from './CodeBlock'
 import Image from './Image'
 import Link from './Link'
 import Youtube from './Youtube'

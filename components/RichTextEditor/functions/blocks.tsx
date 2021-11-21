@@ -1,6 +1,4 @@
-import React from 'react'
 import { Editor, Element as SlateElement, Transforms } from 'slate'
-import CodeBlock from '../elements/CodeBlock'
 
 const LIST_TYPES = ['numbered-list', 'bulleted-list']
 
