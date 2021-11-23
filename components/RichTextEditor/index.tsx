@@ -92,62 +92,70 @@ const RichTextEditor = () => {
             }}
           >
             <div className="toolbar">
-              <MarkButton format="bold" data-uk-tooltip="Bold">
-                <RiBold />
-              </MarkButton>
-              <MarkButton format="italic" data-uk-tooltip="Italic">
-                <RiItalic />
-              </MarkButton>
-              <MarkButton format="underline" data-uk-tooltip="Underline">
-                <RiUnderline />
-              </MarkButton>
-              <MarkButton format="strike" data-uk-tooltip="Strikethrough">
-                <RiStrikethrough />
-              </MarkButton>
-              <MarkButton format="sub" data-uk-tooltip="Subscript">
-                <RiSubscript />
-              </MarkButton>
-              <MarkButton format="sup" data-uk-tooltip="Superscript">
-                <RiSuperscript />
-              </MarkButton>
-              <MarkButton format="code" data-uk-tooltip="Code">
-                <RiCodeFill />
-              </MarkButton>
-              <BlockButton
-                format="code-block"
-                data-uk-tooltip="Create a block of code"
-              >
-                <RiCodeBoxFill />
-              </BlockButton>
-              <FontSizeSelector />
-              <FontColorSelector />
-              <TextAlignmentSelector />
-              <HeadingSelector />
-              <LinkButton />
-              <BlockButton format="blockquote" data-uk-tooltip="Block Quote">
-                <RiDoubleQuotesL />
-              </BlockButton>
-              <BlockButton format="numbered-list" data-uk-tooltip="Number List">
-                <RiListOrdered />
-              </BlockButton>
-              <BlockButton format="bulleted-list" data-uk-tooltip="Bullet List">
-                <RiListUnordered />
-              </BlockButton>
-              <ImageButton />
-              <YoutubeButton />
-              <button
-                className="uk-button uk-button-default"
-                type="button"
-                data-uk-tooltip="Switch editor size"
-                title="Insert a youtube video"
-                onClick={(e) => {
-                  e.preventDefault()
-                  setSmall(!small)
-                }}
-              >
-                <IF condition={small}>Wide Editor</IF>
-                <IF condition={!small}>Narrow Editor</IF>
-              </button>
+              <div>
+                <MarkButton format="bold" data-uk-tooltip="Bold">
+                  <RiBold />
+                </MarkButton>
+                <MarkButton format="italic" data-uk-tooltip="Italic">
+                  <RiItalic />
+                </MarkButton>
+                <MarkButton format="underline" data-uk-tooltip="Underline">
+                  <RiUnderline />
+                </MarkButton>
+                <MarkButton format="strike" data-uk-tooltip="Strikethrough">
+                  <RiStrikethrough />
+                </MarkButton>
+                <MarkButton format="sub" data-uk-tooltip="Subscript">
+                  <RiSubscript />
+                </MarkButton>
+                <MarkButton format="sup" data-uk-tooltip="Superscript">
+                  <RiSuperscript />
+                </MarkButton>
+                <MarkButton format="code" data-uk-tooltip="Code">
+                  <RiCodeFill />
+                </MarkButton>
+                <BlockButton
+                  format="code-block"
+                  data-uk-tooltip="Create a block of code"
+                >
+                  <RiCodeBoxFill />
+                </BlockButton>
+                <FontSizeSelector />
+                <FontColorSelector />
+                <TextAlignmentSelector />
+                <HeadingSelector />
+                <LinkButton />
+                <BlockButton format="blockquote" data-uk-tooltip="Block Quote">
+                  <RiDoubleQuotesL />
+                </BlockButton>
+                <BlockButton
+                  format="numbered-list"
+                  data-uk-tooltip="Number List"
+                >
+                  <RiListOrdered />
+                </BlockButton>
+                <BlockButton
+                  format="bulleted-list"
+                  data-uk-tooltip="Bullet List"
+                >
+                  <RiListUnordered />
+                </BlockButton>
+                <ImageButton />
+                <YoutubeButton />
+                <button
+                  className="uk-button uk-button-default"
+                  type="button"
+                  data-uk-tooltip="Switch editor size"
+                  title="Insert a youtube video"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setSmall(!small)
+                  }}
+                >
+                  <IF condition={small}>Wide Editor</IF>
+                  <IF condition={!small}>Narrow Editor</IF>
+                </button>
+              </div>
             </div>
             <Editable
               className={clsx(

@@ -35,19 +35,23 @@ export const Container = styled.div`
     padding: 20px;
     width: 100%;
     height: 66px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-content: center;
-    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
     background: #fff;
     z-index: 1;
+
+    > div {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      align-content: center;
+      align-items: center;
+    }
   }
 
   .image-delete-button {
