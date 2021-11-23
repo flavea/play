@@ -28,6 +28,10 @@ export const Container = styled.div`
     padding-right: 10px;
     border-bottom: 1px solid #e5e5e5;
     padding-bottom: 20px;
+
+    a {
+      color: #0f6ecd;
+    }
   }
 
   .toolbar {
