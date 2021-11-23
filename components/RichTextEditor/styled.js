@@ -23,24 +23,17 @@ export const Container = styled.div`
   }
 
   .editor {
-    height: calc(100vh - 206px);
+    height: 70vh;
     overflow: auto;
     padding-right: 10px;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 20px;
   }
 
   .toolbar {
     border-bottom: 1px solid #e5e5e5;
     padding-bottom: 20px;
-    display: flex;
     width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-content: center;
-    align-items: center;
-    height: 66px;
   }
 
   .image-delete-button {

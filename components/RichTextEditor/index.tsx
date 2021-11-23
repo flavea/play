@@ -73,7 +73,7 @@ const RichTextEditor = () => {
   }, [])
 
   return (
-    <section className="uk-width-expand uk-height-viewport uk-flex uk-flex-center uk-flex-middle uk-padding">
+    <section className="uk-width-expand uk-height-viewport uk-flex uk-flex-center uk-flex-middle uk-padding uk-padding-remove-vertical">
       <IF condition={!loaded}>
         <div data-uk-spinner="ratio: 3"></div>
       </IF>
