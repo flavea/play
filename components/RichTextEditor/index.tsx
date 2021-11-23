@@ -45,7 +45,7 @@ const HOTKEYS = {
 
 const RichTextEditor = () => {
   const [value, setValue] = useState<Descendant[]>(initialValues)
-  const [loaded, setLoaded] = useState(true)
+  const [loaded, setLoaded] = useState(false)
   const renderElement = useCallback((props) => <Elements {...props} />, [])
   const renderLeaf = useCallback((props) => <Leaf {...props} />, [])
   const editor = useMemo(
