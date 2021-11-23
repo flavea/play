@@ -35,6 +35,7 @@ import {
 import { toggleMark } from './functions/marks'
 import initialValues from './InitialValues'
 import IF from 'components/If'
+import clsx from 'clsx'
 
 const HOTKEYS = {
   'mod+b': 'bold',
@@ -46,6 +47,7 @@ const HOTKEYS = {
 const RichTextEditor = () => {
   const [value, setValue] = useState<Descendant[]>(initialValues)
   const [loaded, setLoaded] = useState(false)
+  const [small, setSmall] = useState(false)
   const renderElement = useCallback((props) => <Elements {...props} />, [])
   const renderLeaf = useCallback((props) => <Leaf {...props} />, [])
   const editor = useMemo(
@@ -89,7 +91,7 @@ const RichTextEditor = () => {
               setValue(value)
             }}
           >
-            <div className="toolbar uk-margin-bottom uk-margin-top">
+            <div className="toolbar">
               <MarkButton format="bold" data-uk-tooltip="Bold">
                 <RiBold />
               </MarkButton>
@@ -133,9 +135,25 @@ const RichTextEditor = () => {
               </BlockButton>
               <ImageButton />
               <YoutubeButton />
+              <button
+                className="uk-button uk-button-default"
+                type="button"
+                data-uk-tooltip="Switch editor size"
+                title="Insert a youtube video"
+                onClick={(e) => {
+                  e.preventDefault()
+                  setSmall(!small)
+                }}
+              >
+                <IF condition={small}>Wide Editor</IF>
+                <IF condition={!small}>Narrow Editor</IF>
+              </button>
             </div>
             <Editable
-              className="editor"
+              className={clsx(
+                'editor uk-margin-auto',
+                small && 'uk-container-small',
+              )}
               renderElement={renderElement}
               renderLeaf={renderLeaf}
               spellCheck

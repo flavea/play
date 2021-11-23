@@ -14,6 +14,7 @@ export const Container = styled.div`
   .uk-button {
     padding: 0 10px !important;
     margin-right: 10px;
+    flex-shrink: 0;
   }
 
   .uk-button-default {
@@ -23,8 +24,7 @@ export const Container = styled.div`
   }
 
   .editor {
-    height: 70vh;
-    overflow: auto;
+    margin-top: 86px;
     padding-right: 10px;
     border-bottom: 1px solid #e5e5e5;
     padding-bottom: 20px;
@@ -32,8 +32,22 @@ export const Container = styled.div`
 
   .toolbar {
     border-bottom: 1px solid #e5e5e5;
-    padding-bottom: 20px;
+    padding: 20px;
     width: 100%;
+    height: 66px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #fff;
+    z-index: 1;
   }
 
   .image-delete-button {

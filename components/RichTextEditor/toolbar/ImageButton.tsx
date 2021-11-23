@@ -10,6 +10,7 @@ import IF from 'components/If'
 const ImageButton = () => {
   const [alt, setAlt] = useState('')
   const [show, setShow] = useState(false)
+  const [classN, setClassN] = useState('')
 
   const editor = useSlateStatic()
   const { imageUrl, style, filters, updateFilter, setImageUrl, reset } =
@@ -19,7 +20,9 @@ const ImageButton = () => {
   delete style?.height
 
   useEffect(() => {
-    window.innerWidth > 750
+    if (document?.body && document.body.clientWidth > 750) {
+      setClassN('uk-column-1-2 uk-column-divider')
+    }
   }, [])
 
   return (
@@ -66,7 +69,7 @@ const ImageButton = () => {
               }}
             />
 
-            <div className="uk-flex uk-flex-right">
+            <div className="uk-flex uk-flex-right uk-margin-bottom">
               <button
                 className="uk-button uk-button-default"
                 onClick={(event) => {
@@ -94,13 +97,11 @@ const ImageButton = () => {
               </button>
             </div>
 
-            <div className="uk-flex">
-              <div className="uk-width-uk-width-1-2">
-                <div className="uk-padding-small uk-padding-remove-left">
-                  <img src={imageUrl} alt={alt} id="image" style={style} />
-                </div>
+            <div className={classN}>
+              <div>
+                <img src={imageUrl} alt={alt} id="image" style={style} />
               </div>
-              <div className=" uk-height-1-1 uk-overflow-auto">
+              <div className="uk-height-1-1 uk-overflow-auto">
                 <h4 className="uk-heading-line uk-margin-top uk-margin-small-bottom">
                   Filters
                 </h4>
