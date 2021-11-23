@@ -45,7 +45,7 @@ const HOTKEYS = {
 
 const RichTextEditor = () => {
   const [value, setValue] = useState<Descendant[]>(initialValues)
-  const [loaded, setLoaded] = useState(false)
+  const [loaded, setLoaded] = useState(true)
   const renderElement = useCallback((props) => <Elements {...props} />, [])
   const renderLeaf = useCallback((props) => <Leaf {...props} />, [])
   const editor = useMemo(
@@ -63,21 +63,22 @@ const RichTextEditor = () => {
       else setValue(initialValues)
     }
 
-    if (window) {
-      window.onload = () => {
-        console.log('onload')
+    // temporary handling when UIkit doesn't load right away
+    const interval = setInterval(() => {
+      if (document.readyState === 'complete') {
         setLoaded(true)
+        clearInterval(interval)
       }
-    }
+    }, 300)
   }, [])
 
   return (
-    <section className="uk-flex uk-flex-center uk-flex-middle">
+    <section className="uk-width-expand uk-height-viewport uk-flex uk-flex-center uk-flex-middle uk-padding">
       <IF condition={!loaded}>
         <div data-uk-spinner="ratio: 3"></div>
       </IF>
       <IF condition={loaded}>
-        <Container className="uk-container uk-container-large">
+        <Container>
           <Slate
             editor={editor}
             value={value}
@@ -88,7 +89,7 @@ const RichTextEditor = () => {
               setValue(value)
             }}
           >
-            <div className="uk-margin-bottom uk-margin-top">
+            <div className="toolbar uk-margin-bottom uk-margin-top">
               <MarkButton format="bold" data-uk-tooltip="Bold">
                 <RiBold />
               </MarkButton>
@@ -134,7 +135,7 @@ const RichTextEditor = () => {
               <YoutubeButton />
             </div>
             <Editable
-              className="editor uk-padding uk-border-rounded"
+              className="editor"
               renderElement={renderElement}
               renderLeaf={renderLeaf}
               spellCheck

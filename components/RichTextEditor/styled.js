@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  width: 90%;
+  width: 100%;
+
   .uk-dropdown {
     padding: 0px !important;
 
@@ -22,9 +23,24 @@ export const Container = styled.div`
   }
 
   .editor {
-    border: 1px solid #e5e5e5;
-    height: 80vh;
+    height: calc(100vh - 206px);
     overflow: auto;
+    padding-right: 10px;
+  }
+
+  .toolbar {
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 20px;
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    height: 66px;
   }
 
   .image-delete-button {
