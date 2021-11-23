@@ -32,9 +32,7 @@ export const Container = styled.div`
 
   .toolbar {
     border-bottom: 1px solid #e5e5e5;
-    padding: 20px;
     width: 100%;
-    height: 66px;
     position: fixed;
     top: 0;
     left: 0;
@@ -42,6 +40,8 @@ export const Container = styled.div`
     z-index: 1;
 
     > div {
+      height: 66px;
+      padding: 20px;
       width: 100%;
       overflow-x: auto;
       overflow-y: hidden;
