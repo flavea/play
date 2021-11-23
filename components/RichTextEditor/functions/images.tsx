@@ -12,9 +12,9 @@ export const withImages = (editor) => {
   return editor
 }
 
-export const insertImage = (editor, url, alt) => {
+export const insertImage = (editor, url, alt, style) => {
   const text = { text: 'Image Caption' }
-  const image = { type: 'image', url, alt, children: [text] }
+  const image = { type: 'image', url, alt, style, children: [text] }
   Transforms.insertNodes(editor, image)
 }
 

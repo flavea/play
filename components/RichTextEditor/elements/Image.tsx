@@ -15,6 +15,7 @@ const Image = ({ attributes, children, element }) => {
           className="uk-display-block uk-margin-auto"
           src={element.url}
           alt={element.alt || ''}
+          style={element.style}
         />
         <button
           className={clsx(

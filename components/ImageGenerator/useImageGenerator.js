@@ -117,18 +117,21 @@ export const useImageGenerator = () => {
 
   const save = () => {
     setTimeout(() => {
-      if (ext === 'png') {
-        toPng(document.getElementById('image')).then(function (dataUrl) {
-          setResultUrl(dataUrl)
-        })
-      } else if (ext === 'svg') {
-        toSvg(document.getElementById('image')).then(function (dataUrl) {
-          setResultUrl(dataUrl)
-        })
-      } else {
-        toJpeg(document.getElementById('image')).then(function (dataUrl) {
-          setResultUrl(dataUrl)
-        })
+      const img = document.getElementById('image')
+      if (img) {
+        if (ext === 'png') {
+          toPng(document.getElementById('image')).then(function (dataUrl) {
+            setResultUrl(dataUrl)
+          })
+        } else if (ext === 'svg') {
+          toSvg(document.getElementById('image')).then(function (dataUrl) {
+            setResultUrl(dataUrl)
+          })
+        } else {
+          toJpeg(document.getElementById('image')).then(function (dataUrl) {
+            setResultUrl(dataUrl)
+          })
+        }
       }
     }, 1000)
   }
@@ -147,7 +150,9 @@ export const useImageGenerator = () => {
 
   useEffect(() => {
     save()
-    setCode(document.getElementById('image').innerHTML)
+    if (document.getElementById('image')) {
+      setCode(document.getElementById('image').innerHTML)
+    }
   }, [style])
 
   useEffect(() => {
@@ -248,17 +253,20 @@ export const useImageGenerator = () => {
   useEffect(() => {
     const calculate = () => {
       const container = document.getElementById('image-container')
-      const styles = window.getComputedStyle(container)
-      const containerW =
-        container.clientWidth -
-        parseFloat(styles.paddingLeft) -
-        parseFloat(styles.paddingRight)
-      const total = width * 2
+      console.log(container)
+      if (container) {
+        const styles = window.getComputedStyle(container)
+        const containerW =
+          container.clientWidth -
+          parseFloat(styles.paddingLeft) -
+          parseFloat(styles.paddingRight)
+        const total = width * 2
 
-      if (total <= containerW) {
-        container.classList.remove('uk-flex-column')
-      } else {
-        container.classList.add('uk-flex-column')
+        if (total <= containerW) {
+          container.classList.remove('uk-flex-column')
+        } else {
+          container.classList.add('uk-flex-column')
+        }
       }
     }
     calculate()

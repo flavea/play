@@ -1,39 +1,146 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSlateStatic } from 'slate-react'
 import { insertImage, isImageUrl } from '../functions/images'
 import { RiImageFill } from 'react-icons/ri'
-import UIkit from 'uikit'
+import { CustomModal } from './ImageInputStyled'
+import { filtersData } from 'components/ImageGenerator/constants'
+import useImageGenerator from 'components/ImageGenerator/useImageGenerator'
+import IF from 'components/If'
 
 const ImageButton = () => {
-  /* const [url, setUrl] = useState('dsfsdfds')
-  const [alt, setAlt] = useState('') */
+  const [alt, setAlt] = useState('')
+  const [show, setShow] = useState(false)
 
   const editor = useSlateStatic()
+  const { imageUrl, style, filters, updateFilter, setImageUrl, reset } =
+    useImageGenerator()
+
+  delete style?.width
+  delete style?.height
 
   useEffect(() => {
-    UIkit.util.on('#image-modal', 'click', async (e) => {
-      e.preventDefault()
-      e.target.blur()
-      const url = await UIkit.modal.prompt('Image URL', '')
-      if (url && !isImageUrl(url)) {
-        alert('URL is not an image')
-      } else if (url) {
-        const alt = await UIkit.modal.prompt('Image Alt Text', '')
-        insertImage(editor, url, alt)
-      }
-    })
+    window.innerWidth > 750
   }, [])
 
   return (
-    <button
-      className="uk-button uk-button-default"
-      type="button"
-      data-uk-tooltip="Insert an image"
-      title="Insert an image"
-      id="image-modal"
-    >
-      <RiImageFill />
-    </button>
+    <>
+      <button
+        className="uk-button uk-button-default"
+        type="button"
+        data-uk-tooltip="Insert an image"
+        title="Insert an image"
+        onMouseDown={(event) => {
+          event.preventDefault()
+          setShow(true)
+        }}
+      >
+        <RiImageFill />
+      </button>
+      <IF condition={show}>
+        <CustomModal className="uk-display-fixed uk-flex uk-flex-middle uk-flex-center">
+          <div id="modal" className="uk-padding uk-position-relative">
+            <h3>Insert Image</h3>
+            <label htmlFor="url">Image Link</label>
+            <IF condition={imageUrl && !isImageUrl(imageUrl)}>
+              <small className="uk-text-danger uk-display-block">
+                Link is not an image
+              </small>
+            </IF>
+            <input
+              id="url"
+              className="uk-input uk-margin-bottom"
+              type="url"
+              value={imageUrl}
+              onChange={(e) => {
+                setImageUrl(e.target.value)
+              }}
+            />
+            <label htmlFor="alt">Alt Text</label>
+            <input
+              id="alt"
+              className="uk-input uk-margin-bottom"
+              type="url"
+              value={alt}
+              onChange={(e) => {
+                setAlt(e.target.value)
+              }}
+            />
+
+            <div className="uk-flex uk-flex-right">
+              <button
+                className="uk-button uk-button-default"
+                onClick={(event) => {
+                  event.preventDefault()
+                  setShow(false)
+                  reset()
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="uk-button uk-button-primary"
+                onClick={(event) => {
+                  event.preventDefault()
+                  if (imageUrl && !isImageUrl(imageUrl)) {
+                    alert('URL is not an image')
+                  } else if (imageUrl) {
+                    insertImage(editor, imageUrl, alt, style)
+                    setShow(false)
+                    reset()
+                  }
+                }}
+              >
+                Insert
+              </button>
+            </div>
+
+            <div className="uk-flex">
+              <div className="uk-width-uk-width-1-2">
+                <div className="uk-padding-small uk-padding-remove-left">
+                  <img src={imageUrl} alt={alt} id="image" style={style} />
+                </div>
+              </div>
+              <div className=" uk-height-1-1 uk-overflow-auto">
+                <h4 className="uk-heading-line uk-margin-top uk-margin-small-bottom">
+                  Filters
+                </h4>
+                {filtersData.map((f) => {
+                  const props = {
+                    value: filters[f.type],
+                    min: f.min,
+                    max: f.max,
+                    step: f.step,
+                    onChange: (e) => updateFilter(f.type, e.target.value),
+                  }
+                  return (
+                    <div
+                      className="border uk-flex-middle uk-margin-small"
+                      key={f.type}
+                    >
+                      <b className="uk-form-span uk-margin-small-right uk-text-capitalize">
+                        {f.type}
+                      </b>
+                      <div className="uk-flex uk-flex-middle uk-flex-1">
+                        <input
+                          className="uk-range uk-margin-small-right"
+                          type="range"
+                          {...props}
+                        />
+                        <input
+                          className="uk-input small-input"
+                          type="number"
+                          {...props}
+                        />
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        </CustomModal>
+      </IF>
+    </>
   )
 }
 
