@@ -253,7 +253,6 @@ export const useImageGenerator = () => {
   useEffect(() => {
     const calculate = () => {
       const container = document.getElementById('image-container')
-      console.log(container)
       if (container) {
         const styles = window.getComputedStyle(container)
         const containerW =
