@@ -91,7 +91,7 @@ export const Character = styled.button`
   margin: 5px;
   position: relative;
 
-  & > div {
+  & > * {
     display: block !important;
   }
 
