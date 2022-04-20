@@ -296,6 +296,12 @@ export const characters = [
     weapon: 'Polearm',
     element: 'Geo',
   },
+  {
+    name: 'Ayato',
+    rarity: 5,
+    weapon: 'Sword',
+    element: 'Hydro',
+  },
 ]
 
 export default characters
