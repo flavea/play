@@ -42,7 +42,7 @@ export default function Home() {
 
           <a href="https://ilma.dev" className={styles.card}>
             <h2>Main Website &rarr;</h2>
-            <p>Owner's website.</p>
+            <p>Owner&apos;s website.</p>
           </a>
         </div>
       </main>

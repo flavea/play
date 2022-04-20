@@ -170,6 +170,10 @@ export const CharacterFilter = ({ setAvailableCharacters }) => {
     parseItem(EXCLUSION)
   }, [])
 
+  const BUTTON_DEFAULT = 'uk-button-default'
+  const BUTTON_PRIMARY = 'uk-button-primary'
+  const BUTTON_SECONDARY = 'uk-button-secondary'
+
   return (
     <>
       <h4 className="uk-h5 uk-text-bold">Filter Character</h4>
@@ -183,13 +187,13 @@ export const CharacterFilter = ({ setAvailableCharacters }) => {
                   key={e}
                   className={clsx(
                     'uk-button',
-                    excludedElements.includes(e) && 'uk-button-default',
+                    excludedElements.includes(e) && BUTTON_DEFAULT,
                     !excludedElements.includes(e) &&
                       i % 2 === 0 &&
-                      'uk-button-primary',
+                      BUTTON_PRIMARY,
                     !excludedElements.includes(e) &&
                       i % 2 !== 0 &&
-                      'uk-button-secondary',
+                      BUTTON_SECONDARY,
                     !excludedElements.includes(e) && e,
                   )}
                   onClick={() => {
@@ -209,13 +213,13 @@ export const CharacterFilter = ({ setAvailableCharacters }) => {
                   key={e}
                   className={clsx(
                     'uk-button',
-                    excludedWeapons.includes(e) && 'uk-button-default',
+                    excludedWeapons.includes(e) && BUTTON_DEFAULT,
                     !excludedWeapons.includes(e) &&
                       i % 2 === 0 &&
-                      'uk-button-primary',
+                      BUTTON_PRIMARY,
                     !excludedWeapons.includes(e) &&
                       i % 2 !== 0 &&
-                      'uk-button-secondary',
+                      BUTTON_SECONDARY,
                   )}
                   onClick={() => {
                     setFilter('weapons', e)
@@ -233,9 +237,7 @@ export const CharacterFilter = ({ setAvailableCharacters }) => {
                 key="e"
                 className={clsx(
                   'uk-button',
-                  excludedRarity === 4
-                    ? 'uk-button-default'
-                    : 'uk-button-primary',
+                  excludedRarity === 4 ? BUTTON_DEFAULT : BUTTON_PRIMARY,
                 )}
                 onClick={() => {
                   setFilter('rarity', 4)
@@ -247,9 +249,7 @@ export const CharacterFilter = ({ setAvailableCharacters }) => {
                 key="e"
                 className={clsx(
                   'uk-button',
-                  excludedRarity === 5
-                    ? 'uk-button-default'
-                    : 'uk-button-secondary',
+                  excludedRarity === 5 ? BUTTON_DEFAULT : BUTTON_SECONDARY,
                 )}
                 onClick={() => {
                   setFilter('rarity', 5)
@@ -267,8 +267,8 @@ export const CharacterFilter = ({ setAvailableCharacters }) => {
                   key={`sort-${e}`}
                   className={clsx(
                     'uk-button',
-                    sort !== e && 'uk-button-default',
-                    sort === e && 'uk-button-secondary',
+                    sort !== e && BUTTON_DEFAULT,
+                    sort === e && BUTTON_SECONDARY,
                   )}
                   onClick={updateSort(e)}
                 >
