@@ -29,7 +29,6 @@ const config = {
     ignoreBuildErrors: true,
   },
   cleanDistDir: false,
-  webpack5: false,
 }
 
 module.exports = withImages(withOffline(config))
