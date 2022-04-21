@@ -1,57 +1,61 @@
+/* eslint-disable no-case-declarations */
 import { CharacterListCard, Grid } from './styled'
 import characters from './characters'
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect } from 'react'
 import clsx from 'clsx'
 import CharacterList from './CharacterList'
 import { AiFillStar } from 'react-icons/ai'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  excludeCharacters,
+  includeCharacters,
+  includeElements,
+  includeWeapons,
+  setRarity,
+  setSort,
+} from 'store/genshin-single/action'
 
-const elements = ['Pyro', 'Geo', 'Dendro', 'Cryo', 'Electro', 'Anemo', 'Hydro']
-const weapons = ['Sword', 'Claymore', 'Catalyst', 'Polearm', 'Bow']
+const elementsList = [
+  'Pyro',
+  'Geo',
+  'Dendro',
+  'Cryo',
+  'Electro',
+  'Anemo',
+  'Hydro',
+]
+const weaponsList = ['Sword', 'Claymore', 'Catalyst', 'Polearm', 'Bow']
 const sorts = Object.keys(characters[0])
 
 const ELEMENT = 'elements'
 const WEAPON = 'weapons'
 const RARITY = 'rarity'
-const POOL = 'pool'
-const EXCLUSION = 'exclusion'
 
-export const CharacterFilter = ({ setAvailableCharacters }) => {
-  const [excluded, setExcluded] = useState([])
-  const [included, setIncluded] = useState(characters)
-  const [includedElements, setincludedElements] = useState([])
-  const [includedWeapons, setincludedWeapons] = useState([])
-  const [includedRarity, setincludedRarity] = useState(0)
-  const [sort, setSort] = useState('name')
-
-  const sortBy = (array, by) => {
-    if (by === 'weapon') {
-      return array.sort((a, b) => a.weapon.localeCompare(b.weapon))
-    }
-    if (by === 'name') {
-      return array.sort((a, b) => a.name.localeCompare(b.name))
-    }
-    if (by === 'element') {
-      return array.sort((a, b) => a.element.localeCompare(b.element))
-    }
-    if (by === 'rarity') return array.sort((a, b) => a.rarity < b.rarity)
-  }
+export const CharacterFilter = () => {
+  const {
+    elements,
+    weapons,
+    rarity,
+    sort,
+    excludedCharacters,
+    includedCharacters,
+  } = useSelector((state) => state.genshinsingle)
+  const dispatch = useDispatch()
 
   const setExclusion = (character) => {
     let newExcluded = []
 
     if (
-      excluded.find(
+      excludedCharacters.find(
         (ex) => ex.name === character.name && ex.element === character.element,
       )
     ) {
-      newExcluded = excluded.filter(
+      newExcluded = excludedCharacters.filter(
         (n) => n.name !== character.name && n.element !== character.element,
       )
     } else {
-      newExcluded = [...excluded, character]
+      newExcluded = [...excludedCharacters, character]
     }
-
-    newExcluded = sortBy(newExcluded, sort)
 
     const newExcludedLength = newExcluded.length
     const characterLength = characters.length
@@ -60,31 +64,35 @@ export const CharacterFilter = ({ setAvailableCharacters }) => {
     if (left < 8) {
       alert('Can not have less than 8 characters in the pool')
     } else {
-      setExcluded(newExcluded)
+      dispatch(excludeCharacters(newExcluded, sort))
     }
   }
 
   const setFilter = (type, value) => {
     switch (type) {
       case ELEMENT:
-        if (includedElements.includes(value)) {
-          setincludedElements(includedElements.filter((e) => e !== value))
+        let newElements = []
+        if (elements.includes(value)) {
+          newElements = elements.filter((e) => e !== value)
         } else {
-          setincludedElements([...includedElements, value])
+          newElements = [...elements, value]
         }
+        dispatch(includeElements(newElements))
         break
       case WEAPON:
-        if (includedWeapons.includes(value)) {
-          setincludedWeapons(includedWeapons.filter((e) => e !== value))
+        let newWeapons = []
+        if (weapons.includes(value)) {
+          newWeapons = weapons.filter((e) => e !== value)
         } else {
-          setincludedWeapons([...includedWeapons, value])
+          newWeapons = [...weapons, value]
         }
+        dispatch(includeWeapons(newWeapons))
         break
       case RARITY:
-        if (includedRarity === value) {
-          setincludedRarity(0)
+        if (rarity === value) {
+          dispatch(setRarity(0))
         } else {
-          setincludedRarity(value)
+          dispatch(setRarity(value))
         }
         break
       default:
@@ -92,95 +100,35 @@ export const CharacterFilter = ({ setAvailableCharacters }) => {
     }
   }
 
-  const setItem = (type, value) => {
-    if (value != undefined) {
-      localStorage.setItem(type, JSON.stringify(value))
-    }
-  }
-
-  const parseItem = (type) => {
-    let item = localStorage.getItem(type)
-    let sorted = localStorage.getItem('sort') || sort || 'name'
-    setSort(sorted)
-    if (item) {
-      if (type !== 'rarity') {
-        item = JSON.parse(item)
-      } else {
-        item = Number(item)
-      }
-      switch (type) {
-        case ELEMENT:
-          setincludedElements(item)
-          break
-        case WEAPON:
-          setincludedWeapons(item)
-          break
-        case RARITY:
-          setincludedRarity(item)
-          break
-        case POOL:
-          // eslint-disable-next-line no-case-declarations
-          const items = sortBy(item, sorted)
-          setIncluded(items)
-          setAvailableCharacters(items)
-          break
-        case EXCLUSION:
-          setExcluded(sortBy(item, sorted))
-          break
-        default:
-          break
-      }
-    }
-  }
-
   const updateSort = (value) => () => {
-    setSort(value)
+    dispatch(setSort(value))
     localStorage.setItem('sort', value)
-    const sortedIncluded = sortBy(included, value)
-    const sortedExcluded = sortBy(excluded, value)
-    setIncluded(sortedIncluded)
-    setExcluded(sortedExcluded)
+    dispatch(includeCharacters(includedCharacters, value))
+    dispatch(excludeCharacters(excludedCharacters, value))
   }
 
   useEffect(() => {
     let newCharacters = characters.filter(
       (c) =>
-        !excluded.find((e) => e.name === c.name && e.element === c.element),
+        !excludedCharacters.find(
+          (e) => e.name === c.name && e.element === c.element,
+        ),
     )
 
-    if (includedRarity !== 0) {
-      newCharacters = newCharacters.filter((c) => c.rarity === includedRarity)
+    if (rarity !== 0) {
+      newCharacters = newCharacters.filter((c) => c.rarity === rarity)
     }
 
-    if (includedWeapons.length > 0) {
-      newCharacters = newCharacters.filter((c) =>
-        includedWeapons.includes(c.weapon),
-      )
-    }
-    if (includedElements.length > 0) {
-      newCharacters = newCharacters.filter((c) =>
-        includedElements.includes(c.element),
-      )
+    if (weapons.length > 0) {
+      newCharacters = newCharacters.filter((c) => weapons.includes(c.weapon))
     }
 
-    newCharacters = sortBy(newCharacters, sort)
+    if (elements.length > 0) {
+      newCharacters = newCharacters.filter((c) => elements.includes(c.element))
+    }
 
-    setIncluded(newCharacters)
-    setAvailableCharacters(newCharacters)
-    setItem(RARITY, includedRarity)
-    setItem(ELEMENT, includedElements)
-    setItem(WEAPON, includedWeapons)
-    setItem(POOL, newCharacters)
-    setItem(EXCLUSION, sortBy(excluded, sort))
-  }, [includedElements, includedWeapons, includedRarity, excluded])
-
-  useLayoutEffect(() => {
-    parseItem(RARITY)
-    parseItem(ELEMENT)
-    parseItem(WEAPON)
-    parseItem(POOL)
-    parseItem(EXCLUSION)
-  }, [])
+    dispatch(includeCharacters(newCharacters, sort))
+  }, [elements, weapons, rarity, excludedCharacters])
 
   const BUTTON_DEFAULT = 'uk-button-default'
   const BUTTON_PRIMARY = 'uk-button-primary'
@@ -194,19 +142,15 @@ export const CharacterFilter = ({ setAvailableCharacters }) => {
           <div className="filter">
             <div className="uk-text-small filter-name">Elements</div>
             <div className="uk-button-group">
-              {elements.map((e, i) => (
+              {elementsList.map((e, i) => (
                 <button
                   key={e}
                   className={clsx(
                     'uk-button',
-                    !includedElements.includes(e) && BUTTON_DEFAULT,
-                    includedElements.includes(e) &&
-                      i % 2 === 0 &&
-                      BUTTON_PRIMARY,
-                    includedElements.includes(e) &&
-                      i % 2 !== 0 &&
-                      BUTTON_SECONDARY,
-                    includedElements.includes(e) && e,
+                    !elements.includes(e) && BUTTON_DEFAULT,
+                    elements.includes(e) && i % 2 === 0 && BUTTON_PRIMARY,
+                    elements.includes(e) && i % 2 !== 0 && BUTTON_SECONDARY,
+                    elements.includes(e) && e,
                   )}
                   onClick={() => {
                     setFilter('elements', e)
@@ -220,18 +164,14 @@ export const CharacterFilter = ({ setAvailableCharacters }) => {
           <div className="filter">
             <div className="uk-text-small filter-name">Weapon Type</div>
             <div className="uk-button-group">
-              {weapons.map((e, i) => (
+              {weaponsList.map((e, i) => (
                 <button
                   key={e}
                   className={clsx(
                     'uk-button',
-                    !includedWeapons.includes(e) && BUTTON_DEFAULT,
-                    includedWeapons.includes(e) &&
-                      i % 2 === 0 &&
-                      BUTTON_PRIMARY,
-                    includedWeapons.includes(e) &&
-                      i % 2 !== 0 &&
-                      BUTTON_SECONDARY,
+                    !weapons.includes(e) && BUTTON_DEFAULT,
+                    weapons.includes(e) && i % 2 === 0 && BUTTON_PRIMARY,
+                    weapons.includes(e) && i % 2 !== 0 && BUTTON_SECONDARY,
                   )}
                   onClick={() => {
                     setFilter('weapons', e)
@@ -249,7 +189,7 @@ export const CharacterFilter = ({ setAvailableCharacters }) => {
                 key="e"
                 className={clsx(
                   'uk-button',
-                  includedRarity === 4 ? BUTTON_PRIMARY : BUTTON_DEFAULT,
+                  rarity === 4 ? BUTTON_PRIMARY : BUTTON_DEFAULT,
                 )}
                 onClick={() => {
                   setFilter('rarity', 4)
@@ -261,7 +201,7 @@ export const CharacterFilter = ({ setAvailableCharacters }) => {
                 key="e"
                 className={clsx(
                   'uk-button',
-                  includedRarity === 5 ? BUTTON_PRIMARY : BUTTON_DEFAULT,
+                  rarity === 5 ? BUTTON_PRIMARY : BUTTON_DEFAULT,
                 )}
                 onClick={() => {
                   setFilter('rarity', 5)
@@ -291,16 +231,16 @@ export const CharacterFilter = ({ setAvailableCharacters }) => {
           </div>
         </div>
       </CharacterListCard>
-      <Grid className={excluded.length > 0 ? 'yes-grid' : null}>
+      <Grid className={excludedCharacters.length > 0 ? 'yes-grid' : null}>
         <CharacterList
           title="Character Pool"
-          characters={included}
+          characters={includedCharacters}
           text="Click character icon to exclude from character pool"
           setExclusion={setExclusion}
         />
         <CharacterList
           title="Excluded Characters"
-          characters={excluded}
+          characters={excludedCharacters}
           text="Click character icon to put character back into character pool"
           setExclusion={setExclusion}
           opacity={true}

@@ -45,34 +45,34 @@ export const CharacterListCard = styled.section.attrs({
   }
 
   .Electro {
-    background-color: #b03bef;
-    color: #fff;
+    background-color: #b03bef !important;
+    color: #fff !important;
   }
   .Pyro {
-    background-color: #d13c3c;
-    color: #fff;
+    background-color: #d13c3c !important;
+    color: #fff !important;
   }
   .Cryo {
-    background-color: #7ceff9;
-    color: #000;
+    background-color: #7ceff9 !important;
+    color: #000 !important;
   }
   .Hydro,
   .uk-button-primary {
-    background-color: #308fdd;
-    color: #fff;
+    background-color: #308fdd !important;
+    color: #fff !important;
   }
   .Anemo {
-    background-color: #42edc5;
-    color: #000;
+    background-color: #42edc5 !important;
+    color: #000 !important;
   }
   .Geo,
   .uk-button-secondary {
-    background-color: #aa6f33;
-    color: #fff;
+    background-color: #aa6f33 !important;
+    color: #fff !important;
   }
   .Dendro {
-    background-color: #5d992c;
-    color: #fff;
+    background-color: #5d992c !important;
+    color: #fff !important;
   }
 `
 

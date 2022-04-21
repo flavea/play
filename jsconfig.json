@@ -6,7 +6,8 @@
         "components/*": ["components/*"],
         "helpers/*": ["helpers/*"],
         "styles/*": ["styles/*"],
-        "public/*": ["public/*"]
+        "public/*": ["public/*"],
+        "store/*": ["store/*"]
       }
     }
   }

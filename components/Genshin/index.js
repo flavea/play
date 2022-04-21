@@ -1,13 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  setDate,
+  setFirstTeam,
+  setSecondTeam,
+} from 'store/genshin-single/action'
 import CharacterFilter from './CharacterFilter'
 import CharacterList from './CharacterList'
 import { Container, Grid } from './styled'
 
 export const Genshin = () => {
-  const [availableCharacters, setAvailableCharacters] = useState([])
-  const [firstTeam, setFirstTeam] = useState([])
-  const [secondTeam, setSecondTeam] = useState([])
-  const [generatedDate, setGeneratedDate] = useState('')
+  const { firstTeam, secondTeam, date, includedCharacters } = useSelector(
+    (state) => state.genshinsingle,
+  )
+  const dispatch = useDispatch()
 
   const getRandom = (arr, n) => {
     let result = new Array(n),
@@ -31,33 +37,19 @@ export const Genshin = () => {
     return result
   }
 
-  const parseItem = (type) => {
-    let item = localStorage.getItem(type)
-    return item && item.startsWith('[') ? JSON.parse(item) : item || null
-  }
-
-  const setItem = (type, value) => {
-    localStorage.setItem(type, JSON.stringify(value))
-  }
-
   const generateTeam = () => {
-    if (availableCharacters.length >= 8) {
-      const firstTeam = getRandom(availableCharacters, 4)
-      const newPool = availableCharacters.filter(
-        (c) => !firstTeam.find((f) => f.name === c.name),
+    if (includedCharacters.length >= 8) {
+      const first = getRandom(includedCharacters, 4)
+      const newPool = includedCharacters.filter(
+        (c) => !first.find((f) => f.name === c.name),
       )
-      const secondTeam = getRandom(newPool, 4)
+      const second = getRandom(newPool, 4)
       const generated = new Date().toString()
-      localStorage.setItem('date', generated)
-      setItem('firstTeam', firstTeam)
-      setItem('secondTeam', secondTeam)
-      setFirstTeam(firstTeam)
-      setSecondTeam(secondTeam)
-      setGeneratedDate(generated)
-    } else if (
-      availableCharacters.length > 0 &&
-      availableCharacters.length < 8
-    ) {
+
+      dispatch(setFirstTeam(first))
+      dispatch(setSecondTeam(second))
+      dispatch(setDate(generated))
+    } else if (includedCharacters.length > 0 && includedCharacters.length < 8) {
       alert(
         'Can not have less than 8 characters in the pool, please remove some filters',
       )
@@ -65,20 +57,13 @@ export const Genshin = () => {
   }
 
   useEffect(() => {
-    if (availableCharacters.length >= 8) {
-      const firstTeam = parseItem('firstTeam')
-      const secondTeam = parseItem('secondTeam')
-      const generated = parseItem('date')
-
-      if (firstTeam?.length) setFirstTeam(firstTeam)
-      if (secondTeam?.length) setSecondTeam(secondTeam)
-      if (generated) setGeneratedDate(generated)
-
-      if (!firstTeam || !secondTeam) {
-        generateTeam()
-      }
+    if (
+      includedCharacters.length >= 8 &&
+      (firstTeam.length < 4 || secondTeam.length < 4)
+    ) {
+      generateTeam()
     }
-  }, [availableCharacters])
+  }, [firstTeam, secondTeam])
 
   return (
     <Container>
@@ -94,7 +79,7 @@ export const Genshin = () => {
       </Grid>
       <center>
         <p />
-        <p>Generated: {generatedDate}</p>
+        <p>Generated: {date}</p>
         <button
           className="uk-button uk-button-primary"
           onClick={() => {
@@ -104,7 +89,7 @@ export const Genshin = () => {
           Generate New Team
         </button>
       </center>
-      <CharacterFilter setAvailableCharacters={setAvailableCharacters} />
+      <CharacterFilter />
     </Container>
   )
 }
