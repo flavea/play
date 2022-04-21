@@ -39,11 +39,6 @@ export default function Home() {
               <p>Generate random genshin team for challenges</p>
             </a>
           </Link>
-
-          <a href="https://ilma.dev" className={styles.card}>
-            <h2>Main Website &rarr;</h2>
-            <p>Owner&apos;s website.</p>
-          </a>
         </div>
       </main>
     </div>
