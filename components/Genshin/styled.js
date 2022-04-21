@@ -56,8 +56,7 @@ export const CharacterListCard = styled.section.attrs({
     background-color: #7ceff9 !important;
     color: #000 !important;
   }
-  .Hydro,
-  .uk-button-primary {
+  .Hydro {
     background-color: #308fdd !important;
     color: #fff !important;
   }
@@ -65,8 +64,7 @@ export const CharacterListCard = styled.section.attrs({
     background-color: #42edc5 !important;
     color: #000 !important;
   }
-  .Geo,
-  .uk-button-secondary {
+  .Geo {
     background-color: #aa6f33 !important;
     color: #fff !important;
   }
