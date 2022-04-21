@@ -279,7 +279,6 @@ export const characters = [
   },
   {
     name: 'Yoimiya',
-    tier: 'C',
     rarity: 5,
     weapon: 'Bow',
     element: 'Pyro',

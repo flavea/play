@@ -54,16 +54,21 @@ export const Genshin = () => {
       setFirstTeam(firstTeam)
       setSecondTeam(secondTeam)
       setGeneratedDate(generated)
-    } else if (availableCharacters.length > 0 && availableCharacters < 8) {
-      alert('Can not have less than 8 characters in the pool')
+    } else if (
+      availableCharacters.length > 0 &&
+      availableCharacters.length < 8
+    ) {
+      alert(
+        'Can not have less than 8 characters in the pool, please remove some filters',
+      )
     }
   }
 
   useEffect(() => {
     if (availableCharacters.length >= 8) {
-      let firstTeam = parseItem('firstTeam')
-      let secondTeam = parseItem('secondTeam')
-      let generated = parseItem('date')
+      const firstTeam = parseItem('firstTeam')
+      const secondTeam = parseItem('secondTeam')
+      const generated = parseItem('date')
 
       if (firstTeam?.length) setFirstTeam(firstTeam)
       if (secondTeam?.length) setSecondTeam(secondTeam)

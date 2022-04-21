@@ -14,6 +14,11 @@ const CharacterList = ({
   opacity,
   big,
 }) => {
+  const getAlt = (c) => {
+    return `${c.name}, a ${
+      c.rarity
+    } stars ${c.element.toLowerCase()} character wielding a ${c.weapon.toLowerCase()}`
+  }
   return (
     <IF condition={characters && characters.length > 0}>
       <div>
@@ -39,13 +44,13 @@ const CharacterList = ({
                     )
                   }
                 }}
-                data-uk-tooltip={`${c.name}, a ${c.rarity} stars ${c.element} character wielding a ${c.weapon} weapon`}
+                data-uk-tooltip={getAlt(c)}
               >
                 <Image
                   src={`/genshin_thumbs/${c.element}_${c.name}.png`}
-                  alt={`${c.name}, a ${c.rarity} stars ${c.element} character wielding a ${c.weapon} weapon`}
-                  width={big ? 150 : 100}
-                  height={big ? 150 : 100}
+                  alt={getAlt(c)}
+                  width={big ? 130 : 100}
+                  height={big ? 130 : 100}
                 />
                 <CharacterName className={classes[c.rarity] || ''}>
                   {c.name}

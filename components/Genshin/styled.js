@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-export const Container = styled.section`
-  margin: 20px;
-
+export const Container = styled.section.attrs({
+  className: 'uk-padding uk-container',
+})`
   h4 {
     margin: 10px 0;
   }
@@ -21,23 +21,17 @@ export const Grid = styled.section`
 `
 
 export const CharacterListCard = styled.section.attrs({
-  className: 'uk-border-rounded',
+  className: 'uk-border-rounded uk-background-muted uk-padding-small',
 })`
-  background-color: #f2f2f2;
-  padding: 10px;
   overflow: auto;
 
   .uk-button {
     text-transform: capitalize !important;
     line-height: 32px;
-  }
 
-  .uk-button-default {
-    background-color: #fff;
-  }
-
-  .uk-button-primary {
-    background-color: #5b558b;
+    &.uk-button-default {
+      background-color: #fff;
+    }
   }
 
   .filter {
@@ -51,7 +45,7 @@ export const CharacterListCard = styled.section.attrs({
   }
 
   .Electro {
-    background-color: #5b558b;
+    background-color: #b03bef;
     color: #fff;
   }
   .Pyro {
@@ -62,7 +56,8 @@ export const CharacterListCard = styled.section.attrs({
     background-color: #7ceff9;
     color: #000;
   }
-  .Hydro {
+  .Hydro,
+  .uk-button-primary {
     background-color: #308fdd;
     color: #fff;
   }
@@ -70,7 +65,8 @@ export const CharacterListCard = styled.section.attrs({
     background-color: #42edc5;
     color: #000;
   }
-  .Geo {
+  .Geo,
+  .uk-button-secondary {
     background-color: #aa6f33;
     color: #fff;
   }
@@ -80,16 +76,14 @@ export const CharacterListCard = styled.section.attrs({
   }
 `
 
-export const Character = styled.button`
+export const Character = styled.button.attrs({
+  className:
+    'uk-inline-block uk-padding-remove uk-position-relative uk-overflow-hidden',
+})`
   width: 100px;
-  margin: auto;
-  display: inline-block;
   border: none;
-  padding: 0;
-  overflow: hidden;
   cursor: pointer;
   margin: 5px;
-  position: relative;
 
   & > * {
     display: block !important;
@@ -101,16 +95,11 @@ export const Character = styled.button`
 
   @media only screen and (min-width: 1024px) {
     &.big {
-      width: 150px;
+      width: 130px;
       &&::after {
-        top: 120px;
+        top: 100px;
       }
     }
-  }
-
-  img {
-    display: block;
-    margin: 0;
   }
 
   &&::after {
@@ -129,11 +118,11 @@ export const Character = styled.button`
   }
 `
 
-export const CharacterName = styled.div`
-  font-weight: bold;
+export const CharacterName = styled.div.attrs({
+  className: 'uk-text-bold uk-text-center',
+})`
   background-color: #ea7284;
-  padding: 3px;
-  text-align: center;
+  padding: 5px;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 
