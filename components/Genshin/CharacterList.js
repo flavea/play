@@ -1,26 +1,36 @@
-import { Character, CharacterListCard, CharacterName } from './styled'
-import IF from 'components/If'
 import Image from 'next/image'
+
+import IF from 'components/If'
+import { Character, CharacterListCard, CharacterName } from './styled'
+
+import { getCharacters } from 'helpers/genshin'
 
 const classes = {
   4: 'purple',
   5: 'gold',
 }
 const CharacterList = ({
-  characters,
+  characters: charactersProps,
   text,
   title,
   setExclusion,
   opacity,
   big,
+  type,
+  sort,
 }) => {
+  let characters = charactersProps
+  if (type === 'map' && charactersProps.length) {
+    characters = getCharacters(charactersProps, sort)
+  }
+
   const getAlt = (c) => {
     return `${c.name}, a ${
       c.rarity
     } stars ${c.element.toLowerCase()} character wielding a ${c.weapon.toLowerCase()}`
   }
   return (
-    <IF condition={characters && characters.length > 0}>
+    <IF condition={characters?.length > 0}>
       <div>
         <h4 className="uk-h5 uk-text-bold">{title}</h4>
         <CharacterListCard>
@@ -28,7 +38,7 @@ const CharacterList = ({
           <div className="inner">
             {characters.map((c) => (
               <Character
-                key={`${c.name}-${c.rarity}-${c.element}-${c.weapon}`}
+                key={`${c.id}`}
                 className={`uk-border-rounded ${c.element} ${
                   opacity ? 'excluded' : ''
                 } ${big ? 'big' : ''}`}

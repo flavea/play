@@ -1,10 +1,22 @@
 import styled from 'styled-components'
 
+export const Button = styled.button.attrs({
+  className: 'uk-button uk-flex uk-flex-middle',
+})`
+  padding: 0 20px;
+`
+
 export const Container = styled.section.attrs({
   className: 'uk-padding uk-container',
 })`
   h4 {
     margin: 10px 0;
+  }
+
+  .menu {
+    .uk-button {
+      white-space: nowrap;
+    }
   }
 `
 
@@ -78,7 +90,7 @@ export const Character = styled.button.attrs({
   className:
     'uk-inline-block uk-padding-remove uk-position-relative uk-overflow-hidden',
 })`
-  width: 100px;
+  width: calc(25% - 10px);
   border: none;
   cursor: pointer;
   margin: 5px;
@@ -89,6 +101,10 @@ export const Character = styled.button.attrs({
 
   &.excluded {
     opacity: 0.5;
+  }
+
+  @media only screen and (min-width: 500px) {
+    width: 100px;
   }
 
   @media only screen and (min-width: 1024px) {
@@ -106,13 +122,17 @@ export const Character = styled.button.attrs({
     background-position: center;
     content: '';
     position: absolute;
-    top: 70px;
+    bottom: 30px;
     right: 5px;
     width: 25px;
     height: 25px;
     border-radius: 50%;
     background-image: url('/genshin_thumbs/${(props) =>
       props.weapon.toLowerCase()}.png');
+
+    @media only screen and (min-width: 500px) {
+      top: 70px;
+    }
   }
 `
 
@@ -133,4 +153,31 @@ export const CharacterName = styled.div.attrs({
     background-color: #b283c2;
     color: #fff;
   }
+`
+
+export const PlayerButton = styled.button.attrs({
+  className: 'uk-text-meta',
+})`
+  display: block;
+  width: 100%;
+  padding: 10px 5px;
+  border: none;
+  background: transparent;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  color: #333;
+  cursor: pointer;
+
+  &:hover {
+    background: #f7f7f7;
+  }
+`
+
+export const Box = styled.div.attrs({
+  className: 'uk-card uk-card-default uk-margin-small',
+})`
+  padding: 25px;
+  box-shadow: none;
+  border: 1px solid #e5e5e5;
+  overflow: auto;
 `

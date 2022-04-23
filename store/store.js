@@ -1,11 +1,13 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { createWrapper } from 'next-redux-wrapper'
 import thunkMiddleware from 'redux-thunk'
-import genshinsingle from './genshin-single/reducer'
+import genshinsingle from './genshin/single/reducer'
+import genshinmulti from './genshin/multi/reducer'
 import storage from './sync_storage'
 
 const combinedReducer = combineReducers({
   genshinsingle,
+  genshinmulti,
 })
 
 // BINDING MIDDLEWARE
@@ -25,7 +27,7 @@ const makeStore = ({ isServer }) => {
 
     const persistConfig = {
       key: 'flavea',
-      whitelist: ['counter', 'genshinsingle'],
+      whitelist: ['genshinmulti', 'genshinsingle'],
       storage,
     }
 
