@@ -11,9 +11,8 @@ import {
 
 import UIkit from 'uikit'
 import IF from 'components/If'
-import Sessions from './Sessions'
 import CharacterPool from '../CharacterPool'
-import { Box, Button, Grid } from '../styled'
+import { Box, Button, Flex, Grid } from '../styled'
 import CharacterList from '../CharacterList'
 
 export const Player = ({ sessionPlayer, session, sort, massGen }) => {
@@ -21,9 +20,7 @@ export const Player = ({ sessionPlayer, session, sort, massGen }) => {
   const { players } = useSelector((state) => state.genshinmulti)
 
   const { id, firstTeam, secondTeam, generatedDate } = sessionPlayer
-  console.log(sessionPlayer)
   const player = players.find((p) => p.id === id)
-  console.log(players)
   const { excludedCharacters, name } = player
   const { elements, weapons, rarity } = session
 
@@ -84,17 +81,17 @@ export const Player = ({ sessionPlayer, session, sort, massGen }) => {
 
   return (
     <Box>
-      <div className="uk-grid-small" data-uk-grid>
+      <Flex>
         <div className="uk-width-expand">
           <h3 className="uk-card-title uk-margin-remove-bottom">{name}</h3>
           <p className="uk-text-meta uk-margin-small-top">
-            <ul className="uk-list uk-padding-remove-left uk-margin-remove-left">
-              <IF condition={exclusionPool.length}>
-                <li className="uk-margin-remove-top">
-                  <span className="uk-text-bold">Excluded Characters:</span>{' '}
-                  {exclusionPool.map((p) => p.name).join(', ')}
-                </li>
-              </IF>
+            <ul className="uk-list">
+              <li className="uk-margin-remove-top">
+                <span className="uk-text-bold">Excluded Characters:</span>{' '}
+                {exclusionPool.length
+                  ? exclusionPool.map((p) => p.name).join(', ')
+                  : '-'}
+              </li>
               <li className="uk-margin-remove-top">
                 <span className="uk-text-bold">Generated Date:</span>{' '}
                 {generatedDate || '-'}
@@ -117,7 +114,7 @@ export const Player = ({ sessionPlayer, session, sort, massGen }) => {
             Generate Teams
           </Button>
         </div>
-      </div>
+      </Flex>
       <IF condition={firstTeam?.length}>
         <Grid className="yes-grid uk-margin-small">
           <CharacterList characters={firstTeam} text="First Team" type="map" />
@@ -139,4 +136,4 @@ export const Player = ({ sessionPlayer, session, sort, massGen }) => {
   )
 }
 
-export default Sessions
+export default Player

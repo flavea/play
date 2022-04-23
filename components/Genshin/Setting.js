@@ -13,6 +13,8 @@ export const Setting = () => {
   const dispatch = useDispatch()
   const totalState = useSelector((state) => state)
   const [data, setData] = useState(null)
+  const [single, setSingle] = useState(true)
+  const [multi, setMulti] = useState(true)
 
   const downloadSetting = () => {
     var element = document.createElement('a')
@@ -60,12 +62,12 @@ export const Setting = () => {
       return
     }
 
-    if (data?.genshinsingle) {
+    if (data?.genshinsingle && single) {
       flag = true
       dispatch(replaceSingleData(data.genshinsingle))
     }
 
-    if (data?.genshinmulti) {
+    if (data?.genshinmulti && multi) {
       flag = true
       dispatch(replaceMultiData(data.genshinmulti))
     }
@@ -128,6 +130,26 @@ export const Setting = () => {
       <h4 className="uk-h5 uk-text-bold">Restore Data</h4>
       Upload the downloaded back up data to restore your data. Please note that
       all your current data will be replaced.
+      <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+        <label>
+          <input
+            className="uk-checkbox"
+            type="checkbox"
+            checked={single}
+            onChange={() => setSingle(!single)}
+          />{' '}
+          Update Singleplayer Mode Data
+        </label>
+        <label>
+          <input
+            className="uk-checkbox"
+            type="checkbox"
+            checked={multi}
+            onChange={() => setMulti(!multi)}
+          />{' '}
+          Update Multiplayer Mode Data
+        </label>
+      </div>
       <div className="uk-margin-small uk-flex">
         <div data-uk-form-custom="target: true">
           <input type="file" onChange={onFileChange} accept=".json" />
@@ -139,7 +161,7 @@ export const Setting = () => {
           />
         </div>
         <Button className="uk-button-default" onClick={updateData}>
-          Submit
+          Upload
         </Button>
       </div>
       <p />

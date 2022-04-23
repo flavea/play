@@ -8,8 +8,7 @@ import { updateSession } from 'store/genshin/multi/action'
 import CharacterFilter from '../CharacterFilter'
 import Header from '../Header'
 import Player from './Player'
-import Sessions from './Sessions'
-import { Button, Container } from '../styled'
+import { Button, Container, Flex } from '../styled'
 
 import uuid from 'helpers/uuid'
 import { setElements, setRarityFilter, setWeapons } from 'helpers/genshin'
@@ -90,12 +89,15 @@ export const Session = ({ id }) => {
         rarity={rarity}
         sort={sort}
       />
-      <div className="uk-flex uk-flex-between uk-flex-middle uk-margin">
+      <Flex className="uk-margin-small">
         <h5 className="uk-h5 uk-text-bold uk-margin-remove-bottom">Players</h5>
-        <Button onClick={() => setGen(uuid())} className="uk-button-primary">
+        <Button
+          onClick={() => setGen(uuid())}
+          className="uk-button-primary uk-flex-center uk-margin-small"
+        >
           Generate Teams for All Players
         </Button>
-      </div>
+      </Flex>
       {players.map((p) => (
         <Player
           key={p}
@@ -109,4 +111,4 @@ export const Session = ({ id }) => {
   )
 }
 
-export default Sessions
+export default Session

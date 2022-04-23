@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import IF from 'components/If'
+import { Flex } from './styled'
 
 export const Header = ({ title, desc, children }) => {
   return (
-    <div className="uk-flex uk-flex-between">
+    <Flex>
       <IF condition={title || desc}>
         <div className="uk-margin-small-right">
           <IF condition={title}>
@@ -19,8 +20,8 @@ export const Header = ({ title, desc, children }) => {
           </IF>
         </div>
       </IF>
-      <div className="uk-text-right menu">{children}</div>
-    </div>
+      <div>{children}</div>
+    </Flex>
   )
 }
 

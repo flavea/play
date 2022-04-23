@@ -1,4 +1,4 @@
-import { Session } from 'components/Genshin/Multi/Session'
+import Session from 'components/Genshin/Multi/Session'
 import SEO from 'components/Genshin/SEO'
 
 export const GenshinGeneratorMulti = ({ id }) => {

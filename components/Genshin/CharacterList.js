@@ -35,7 +35,7 @@ const CharacterList = ({
         <h4 className="uk-h5 uk-text-bold">{title}</h4>
         <CharacterListCard>
           <div className="uk-text-small">{text}</div>
-          <div className="inner">
+          <div className={characters?.length <= 4 ? 'flex' : ''}>
             {characters.map((c) => (
               <Character
                 key={`${c.id}`}
@@ -45,14 +45,6 @@ const CharacterList = ({
                 weapon={c.weapon}
                 onClick={() => {
                   if (setExclusion) setExclusion(c)
-                  else {
-                    window.open(
-                      `https://paimon.moe/characters/${c.name
-                        .replace(' ', '_')
-                        .toLowerCase()}`,
-                      '_blank',
-                    )
-                  }
                 }}
                 data-uk-tooltip={getAlt(c)}
               >

@@ -7,8 +7,14 @@ export const Button = styled.button.attrs({
 `
 
 export const Container = styled.section.attrs({
-  className: 'uk-padding uk-container',
+  className: 'uk-container',
 })`
+  padding: 20px;
+
+  @media only screen and (min-width: 768px) {
+    padding: 30px;
+  }
+
   h4 {
     margin: 10px 0;
   }
@@ -53,6 +59,15 @@ export const CharacterListCard = styled.section.attrs({
 
     .filter-name {
       margin-right: 20px;
+      white-space: nowrap;
+      min-width: 90px;
+    }
+  }
+
+  .flex {
+    display: flex;
+    @media only screen and (min-width: 768px) {
+      display: block;
     }
   }
 
@@ -90,10 +105,11 @@ export const Character = styled.button.attrs({
   className:
     'uk-inline-block uk-padding-remove uk-position-relative uk-overflow-hidden',
 })`
-  width: calc(25% - 10px);
+  width: 100px;
   border: none;
   cursor: pointer;
   margin: 5px;
+  min-width: 100px;
 
   & > * {
     display: block !important;
@@ -101,10 +117,6 @@ export const Character = styled.button.attrs({
 
   &.excluded {
     opacity: 0.5;
-  }
-
-  @media only screen and (min-width: 500px) {
-    width: 100px;
   }
 
   @media only screen and (min-width: 1024px) {
@@ -176,8 +188,19 @@ export const PlayerButton = styled.button.attrs({
 export const Box = styled.div.attrs({
   className: 'uk-card uk-card-default uk-margin-small',
 })`
-  padding: 25px;
+  padding: 15px;
   box-shadow: none;
   border: 1px solid #e5e5e5;
   overflow: auto;
+
+  @media only screen and (min-width: 768px) {
+    padding: 25px;
+  }
+`
+
+export const Flex = styled.div.attrs({ className: 'uk-flex uk-flex-between' })`
+  flex-direction: column;
+  @media only screen and (min-width: 768px) {
+    flex-direction: row;
+  }
 `

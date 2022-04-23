@@ -5,7 +5,7 @@ import { removePlayers, removeSession } from 'store/genshin/multi/action'
 
 import UIkit from 'uikit'
 import IF from 'components/If'
-import { Box, Button } from '../styled'
+import { Box, Button, Flex } from '../styled'
 
 export const Sessions = () => {
   const { sessions, players } = useSelector((state) => state.genshinmulti)
@@ -31,13 +31,13 @@ export const Sessions = () => {
       <h4 className="uk-h4 uk-text-bold">Sessions</h4>
       {sessions.map((sess) => (
         <Box key={sess.id}>
-          <div className="uk-grid-small" data-uk-grid>
+          <Flex>
             <div className="uk-width-expand">
               <h3 className="uk-card-title uk-margin-remove-bottom">
                 {sess.name}
               </h3>
               <p className="uk-text-meta uk-margin-small-top">
-                <ul className="uk-list uk-padding-remove-left uk-margin-remove-left">
+                <ul className="uk-list">
                   <li className="uk-margin-remove-top">
                     <span className="uk-text-bold">Players:</span>{' '}
                     {players
@@ -81,7 +81,7 @@ export const Sessions = () => {
                 Delete
               </Button>
             </div>
-          </div>
+          </Flex>
         </Box>
       ))}
     </>
