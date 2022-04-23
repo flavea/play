@@ -1,8 +1,10 @@
 import Head from 'next/head'
 
-export const SEO = () => {
+export const SEO = ({ title: titleProps }) => {
   const desc = 'Generate random teams for Genshin Impact challenges.'
-  const title = 'Genshin Team Randomizer | Genshin Team Generator'
+  const title =
+    titleProps +
+    `${titleProps ? ' | ' : ''}Genshin Impact Teams Randomizer and Generator`
   const card = 'https://play.ilma.dev/genshin_card.jpg'
 
   return (

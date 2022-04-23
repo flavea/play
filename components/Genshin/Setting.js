@@ -8,6 +8,7 @@ import { replaceMultiData } from 'store/genshin/multi/action'
 
 import UIkit from 'uikit'
 import { Button, Container } from './styled'
+import Header from './Header'
 
 export const Setting = () => {
   const dispatch = useDispatch()
@@ -84,28 +85,18 @@ export const Setting = () => {
 
   return (
     <Container>
-      <div className="uk-flex uk-flex-between uk-flex-middle">
-        <div>
-          <h3 className="uk-h3 uk-text-bold uk-margin-auto-bottom">
-            Random Genshin Teams Generator
-          </h3>
-          <p className="uk-margin-remove-top uk-margin-small-bottom">
-            Info and Settings
-          </p>
-        </div>
-        <div>
-          <Link href="/genshin">
-            <a className="uk-button uk-button-default uk-margin-small-right uk-button-small">
-              Singleplayer Mode
-            </a>
-          </Link>
-          <Link href="/genshin/multi">
-            <a className="uk-button uk-button-default uk-button-small">
-              Multiplayer Mode
-            </a>
-          </Link>
-        </div>
-      </div>
+      <Header title="Random Genshin Teams Generator" desc="Info and Settings">
+        <Link href="/genshin">
+          <a className="uk-button uk-button-default uk-margin-small-right uk-button-small">
+            Singleplayer Mode
+          </a>
+        </Link>
+        <Link href="/genshin/multi">
+          <a className="uk-button uk-button-default uk-button-small">
+            Multiplayer Mode
+          </a>
+        </Link>
+      </Header>
       <hr></hr>
       <p>
         <b>Important:</b> All of this generator&apos;s data is stored in your

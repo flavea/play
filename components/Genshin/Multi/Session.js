@@ -8,11 +8,12 @@ import { updateSession } from 'store/genshin/multi/action'
 import CharacterFilter from '../CharacterFilter'
 import Header from '../Header'
 import Player from './Player'
-import { Button, Container, Flex } from '../styled'
+import { Button, Container } from '../styled'
 
 import uuid from 'helpers/uuid'
 import { setElements, setRarityFilter, setWeapons } from 'helpers/genshin'
 import { ELEMENT, RARITY, WEAPON } from '../constants'
+import SEO from '../SEO'
 
 export const Session = ({ id }) => {
   const { sessions } = useSelector((state) => state.genshinmulti)
@@ -71,6 +72,7 @@ export const Session = ({ id }) => {
 
   return (
     <Container>
+      <SEO title={session.name} />
       <Header
         title={session.name}
         desc="A tool to generate random genshin teams to be used for fun challenges"
@@ -89,15 +91,14 @@ export const Session = ({ id }) => {
         rarity={rarity}
         sort={sort}
       />
-      <Flex className="uk-margin-small">
-        <h5 className="uk-h5 uk-text-bold uk-margin-remove-bottom">Players</h5>
+      <div className="uk-margin uk-text-right">
         <Button
           onClick={() => setGen(uuid())}
-          className="uk-button-primary uk-flex-center uk-margin-small"
+          className="uk-button-primary uk-flex-center"
         >
           Generate Teams for All Players
         </Button>
-      </Flex>
+      </div>
       {players.map((p) => (
         <Player
           key={p}

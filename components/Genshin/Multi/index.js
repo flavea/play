@@ -20,7 +20,7 @@ export const GenshinMulti = () => {
         </Link>
         <Link href="/genshin/info">
           <a className="uk-button uk-button-default uk-margin-small-left uk-margin-small-bottom uk-button-small">
-            Info & Backup
+            Info & Back up
           </a>
         </Link>
       </Header>
