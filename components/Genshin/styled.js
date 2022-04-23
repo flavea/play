@@ -1,10 +1,28 @@
 import styled from 'styled-components'
 
-export const Container = styled.section.attrs({
-  className: 'uk-padding uk-container',
+export const Button = styled.button.attrs({
+  className: 'uk-button uk-flex uk-flex-middle',
 })`
+  padding: 0 20px;
+`
+
+export const Container = styled.section.attrs({
+  className: 'uk-container',
+})`
+  padding: 20px;
+
+  @media only screen and (min-width: 768px) {
+    padding: 30px;
+  }
+
   h4 {
     margin: 10px 0;
+  }
+
+  .menu {
+    .uk-button {
+      white-space: nowrap;
+    }
   }
 `
 
@@ -41,6 +59,15 @@ export const CharacterListCard = styled.section.attrs({
 
     .filter-name {
       margin-right: 20px;
+      white-space: nowrap;
+      min-width: 90px;
+    }
+  }
+
+  .flex {
+    display: flex;
+    @media only screen and (min-width: 768px) {
+      display: block;
     }
   }
 
@@ -82,6 +109,7 @@ export const Character = styled.button.attrs({
   border: none;
   cursor: pointer;
   margin: 5px;
+  min-width: 100px;
 
   & > * {
     display: block !important;
@@ -106,13 +134,17 @@ export const Character = styled.button.attrs({
     background-position: center;
     content: '';
     position: absolute;
-    top: 70px;
+    bottom: 30px;
     right: 5px;
     width: 25px;
     height: 25px;
     border-radius: 50%;
     background-image: url('/genshin_thumbs/${(props) =>
       props.weapon.toLowerCase()}.png');
+
+    @media only screen and (min-width: 500px) {
+      top: 70px;
+    }
   }
 `
 
@@ -132,5 +164,43 @@ export const CharacterName = styled.div.attrs({
   &.purple {
     background-color: #b283c2;
     color: #fff;
+  }
+`
+
+export const PlayerButton = styled.button.attrs({
+  className: 'uk-text-meta',
+})`
+  display: block;
+  width: 100%;
+  padding: 10px 5px;
+  border: none;
+  background: transparent;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  color: #333;
+  cursor: pointer;
+
+  &:hover {
+    background: #f7f7f7;
+  }
+`
+
+export const Box = styled.div.attrs({
+  className: 'uk-card uk-card-default uk-margin-small',
+})`
+  padding: 15px;
+  box-shadow: none;
+  border: 1px solid #e5e5e5;
+  overflow: auto;
+
+  @media only screen and (min-width: 768px) {
+    padding: 25px;
+  }
+`
+
+export const Flex = styled.div.attrs({ className: 'uk-flex uk-flex-between' })`
+  flex-direction: column;
+  @media only screen and (min-width: 768px) {
+    flex-direction: row;
   }
 `

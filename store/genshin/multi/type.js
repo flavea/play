@@ -1,0 +1,7 @@
+export const ADD_SESSIONS = 'addSessions'
+export const REMOVE_SESSIONS = 'removeSessions'
+export const UPDATE_SESSION = 'updateSession'
+export const ADD_PLAYERS = 'addPlayers'
+export const UPDATE_PLAYER = 'updatePlayer'
+export const REPLACE_DATA = 'replaceMultiData'
+export const REMOVE_PLAYERS = 'removePlayers'

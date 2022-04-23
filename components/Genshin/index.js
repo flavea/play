@@ -1,95 +1,157 @@
-import { useEffect } from 'react'
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  excludeCharacters,
+  includeElements,
+  includeWeapons,
   setDate,
   setFirstTeam,
+  setRarity,
   setSecondTeam,
-} from 'store/genshin-single/action'
+  setSort,
+} from 'store/genshin/single/action'
+
+import UIkit from 'uikit'
+import CharacterPool from './CharacterPool'
 import CharacterFilter from './CharacterFilter'
 import CharacterList from './CharacterList'
-import { Container, Grid } from './styled'
+import Header from './Header'
+import { Button, Container, Grid } from './styled'
+
+import { generateTeamPools, getCharacterPool } from 'helpers/genshin'
+
+import { ELEMENT, RARITY, WEAPON } from './constants'
 
 export const Genshin = () => {
-  const { firstTeam, secondTeam, date, includedCharacters } = useSelector(
-    (state) => state.genshinsingle,
-  )
+  const {
+    firstTeam,
+    secondTeam,
+    date,
+    elements,
+    weapons,
+    rarity,
+    excludedCharacters,
+    sort,
+  } = useSelector((state) => state.genshinsingle)
   const dispatch = useDispatch()
-
-  const getRandom = (arr, n) => {
-    let result = new Array(n),
-      len = arr.length,
-      taken = new Array(len)
-    if (n > len) {
-      throw new RangeError('getRandom: more elements taken than available')
-    }
-    while (n--) {
-      let x = Math.floor(Math.random() * len)
-      let res = arr[x in taken ? taken[x] : x]
-      let results = result.filter((r) => Boolean(r))
-      const isDuplicate = results.find((r) => r.name === res.name)
-      if (isDuplicate) {
-        n++
-      } else {
-        result[n] = res
-      }
-      taken[x] = --len in taken ? taken[len] : len
-    }
-    return result
-  }
+  const [pool, setPool] = useState([])
 
   const generateTeam = () => {
-    if (includedCharacters.length >= 8) {
-      const first = getRandom(includedCharacters, 4)
-      const newPool = includedCharacters.filter(
-        (c) => !first.find((f) => f.name === c.name),
-      )
-      const second = getRandom(newPool, 4)
-      const generated = new Date().toString()
+    const teams = generateTeamPools(pool)
+    if (teams?.first) {
+      const { first, second, date: newDate } = teams
 
       dispatch(setFirstTeam(first))
       dispatch(setSecondTeam(second))
-      dispatch(setDate(generated))
-    } else if (includedCharacters.length > 0 && includedCharacters.length < 8) {
-      alert(
+      dispatch(setDate(newDate))
+    } else {
+      UIkit.modal.alert(
         'Can not have less than 8 characters in the pool, please remove some filters',
       )
     }
   }
 
+  const setFilter = (type, value) => {
+    switch (type) {
+      case ELEMENT:
+        dispatch(includeElements(value))
+        break
+      case WEAPON:
+        dispatch(includeWeapons(value))
+        break
+      case RARITY:
+        dispatch(setRarity(value))
+        break
+      default:
+        break
+    }
+  }
+
+  const updateSort = (value) => () => {
+    dispatch(setSort(value))
+  }
+
+  const setExclusion = (character) => {
+    dispatch(excludeCharacters(character, sort))
+  }
+
   useEffect(() => {
-    if (
-      includedCharacters.length >= 8 &&
-      (firstTeam.length < 4 || secondTeam.length < 4)
-    ) {
+    if (pool.length >= 8 && (firstTeam.length < 4 || secondTeam.length < 4)) {
       generateTeam()
     }
-  }, [firstTeam, secondTeam])
+  }, [firstTeam, secondTeam, pool])
+
+  useEffect(() => {
+    const newPool = getCharacterPool(
+      excludedCharacters,
+      rarity,
+      weapons,
+      elements,
+      sort,
+    )
+    setPool(newPool)
+  }, [elements, weapons, rarity, excludedCharacters, sort])
 
   return (
     <Container>
-      <h3 className="uk-h3 uk-text-bold uk-margin-auto-bottom">
-        Random Genshin Teams Generator
-      </h3>
-      <p className="uk-margin-remove-top uk-margin-small-bottom">
-        A tool to generate random genshin teams to be used for fun challenges
-      </p>
+      <Header
+        title="Random Genshin Teams Generator"
+        desc="A tool to generate random genshin teams to be used for fun challenges"
+      >
+        <Link href="/genshin/multi">
+          <a className="uk-button uk-button-default uk-margin-small-bottom uk-button-small">
+            Multiplayer Mode
+          </a>
+        </Link>
+        <Link href="/genshin/info">
+          <a className="uk-button uk-button-default uk-margin-small-left uk-margin-small-bottom uk-button-small">
+            Info & Backup
+          </a>
+        </Link>
+      </Header>
       <Grid className="yes-grid">
-        <CharacterList characters={firstTeam} text="First Team" big={true} />
-        <CharacterList characters={secondTeam} text="Second Team" big={true} />
+        <CharacterList
+          characters={firstTeam}
+          text="First Team"
+          big={true}
+          type="map"
+        />
+        <CharacterList
+          characters={secondTeam}
+          text="Second Team"
+          big={true}
+          type="map"
+        />
       </Grid>
       <center>
         <p />
         <p>Generated: {date}</p>
-        <button
-          className="uk-button uk-button-primary"
+        <Button
+          className="uk-button-primary"
           onClick={() => {
             generateTeam()
           }}
         >
           Generate New Team
-        </button>
+        </Button>
       </center>
-      <CharacterFilter />
+      <h4 className="uk-h5 uk-text-bold">Filter Character</h4>
+      <CharacterFilter
+        updateFilter={setFilter}
+        updateSort={updateSort}
+        elements={elements}
+        weapons={weapons}
+        rarity={rarity}
+        sort={sort}
+      />
+      <CharacterPool
+        inclusionPool={pool}
+        exclusionPool={excludedCharacters}
+        setExclusion={setExclusion}
+        sort={sort}
+      />
     </Container>
   )
 }
