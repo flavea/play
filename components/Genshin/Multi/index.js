@@ -28,7 +28,6 @@ export const GenshinMulti = () => {
       <hr />
 
       <Form />
-      <hr />
       <Sessions />
     </Container>
   )

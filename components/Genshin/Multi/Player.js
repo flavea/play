@@ -26,7 +26,7 @@ export const Player = ({ sessionPlayer, session, sort, massGen }) => {
   const { id, firstTeam, secondTeam, generatedDate } = sessionPlayer
   const player = players.find((p) => p.id === id)
   const { excludedCharacters, name } = player
-  const { elements, weapons, rarity, type, stages } = session
+  const { elements, weapons, rarity, type, stages, scoreType } = session
 
   const [pool, setPool] = useState([])
   const [exclusionPool, setExclusionPool] = useState([])
@@ -81,7 +81,7 @@ export const Player = ({ sessionPlayer, session, sort, massGen }) => {
     }
   }
 
-  const updateTime = (stage, time) => {
+  const updateScore = (stage, time) => {
     const newPlayer = {
       ...sessionPlayer,
       [stage]: time,
@@ -151,26 +151,39 @@ export const Player = ({ sessionPlayer, session, sort, massGen }) => {
               key={`${name}-${stageName}-${i + 1}`}
             >
               <p className="uk-margin-remove">{`${stageName} ${i + 1}`}</p>
-              <TimePicker
-                showHour={false}
-                className="uk-width-expand uk-margin-left"
-                value={
-                  sessionPlayer[`${stageName}-${i + 1}`]
-                    ? getTime(sessionPlayer[`${stageName}-${i + 1}`])
-                    : ''
-                }
-                placeholder="mm:ss"
-                format="mm:ss"
-                onChange={(time) => {
-                  if (time) {
-                    const m = time.minutes()
-                    const s = time.seconds()
-                    updateTime(`${stageName}-${i + 1}`, `${m}:${s}`)
-                  } else {
-                    updateTime(`${stageName}-${i + 1}`, ``)
+              <IF condition={scoreType === 'time'}>
+                <TimePicker
+                  showHour={false}
+                  className="uk-width-expand uk-margin-left"
+                  value={
+                    sessionPlayer[`${stageName}-${i + 1}`]
+                      ? getTime(sessionPlayer[`${stageName}-${i + 1}`])
+                      : ''
                   }
-                }}
-              />
+                  placeholder="mm:ss"
+                  format="mm:ss"
+                  onChange={(time) => {
+                    if (time) {
+                      const m = time.minutes()
+                      const s = time.seconds()
+                      updateScore(`${stageName}-${i + 1}`, `${m}:${s}`)
+                    } else {
+                      updateScore(`${stageName}-${i + 1}`, ``)
+                    }
+                  }}
+                />
+              </IF>
+              <IF condition={scoreType !== 'time'}>
+                <input
+                  className="uk-input uk-width-expand uk-margin-left"
+                  type="text"
+                  placeholder="Score"
+                  value={sessionPlayer[`${stageName}-${i + 1}`] || ''}
+                  onChange={(e) => {
+                    updateScore(`${stageName}-${i + 1}`, e.target.value)
+                  }}
+                />
+              </IF>
             </div>
           ))}
         </div>

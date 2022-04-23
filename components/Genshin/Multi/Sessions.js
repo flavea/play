@@ -28,6 +28,7 @@ export const Sessions = () => {
 
   return (
     <>
+      <hr />
       <h4 className="uk-h4 uk-text-bold">Sessions</h4>
       {sessions.map((sess) => (
         <Box key={sess.id}>
