@@ -14,3 +14,8 @@ export const elementsList = [
 ]
 export const weaponsList = ['Sword', 'Claymore', 'Catalyst', 'Polearm', 'Bow']
 export const sorts = Object.keys(characters[0]).filter((key) => key !== 'id')
+export const stageTypes = [
+  { name: 'Abyss', desc: 'For abyss challenges' },
+  { name: 'Domains', desc: 'For domains such as virisdescent venerer, etc' },
+  { name: 'Others', desc: 'For events or domains that have more than 1 stage' },
+]

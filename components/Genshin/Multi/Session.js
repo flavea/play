@@ -73,10 +73,7 @@ export const Session = ({ id }) => {
   return (
     <Container>
       <SEO title={session.name} />
-      <Header
-        title={session.name}
-        desc="A tool to generate random genshin teams to be used for fun challenges"
-      >
+      <Header title={session.name} desc={`Type: ${session.type}`}>
         <Link href="/genshin/multi">
           <a className="uk-button uk-button-default">Back</a>
         </Link>

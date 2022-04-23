@@ -15,6 +15,10 @@ import CharacterPool from '../CharacterPool'
 import { Box, Button, Flex, Grid } from '../styled'
 import CharacterList from '../CharacterList'
 
+import 'rc-time-picker/assets/index.css'
+import TimePicker from 'rc-time-picker'
+import moment from 'moment'
+
 export const Player = ({ sessionPlayer, session, sort, massGen }) => {
   const dispatch = useDispatch()
   const { players } = useSelector((state) => state.genshinmulti)
@@ -22,7 +26,7 @@ export const Player = ({ sessionPlayer, session, sort, massGen }) => {
   const { id, firstTeam, secondTeam, generatedDate } = sessionPlayer
   const player = players.find((p) => p.id === id)
   const { excludedCharacters, name } = player
-  const { elements, weapons, rarity } = session
+  const { elements, weapons, rarity, type, stages } = session
 
   const [pool, setPool] = useState([])
   const [exclusionPool, setExclusionPool] = useState([])
@@ -48,6 +52,15 @@ export const Player = ({ sessionPlayer, session, sort, massGen }) => {
     if (massGen) generateTeam()
   }, [massGen])
 
+  const updateNewPlayer = (newPlayer) => {
+    const newPlayers = session.players
+    const index = newPlayers.findIndex((p) => p.id === player.id)
+    if (index != -1) {
+      newPlayers[index] = newPlayer
+      dispatch(updateSession({ ...session, players: newPlayers }))
+    }
+  }
+
   const generateTeam = () => {
     const teams = generateTeamPools(pool)
     if (teams?.first) {
@@ -60,12 +73,7 @@ export const Player = ({ sessionPlayer, session, sort, massGen }) => {
         generatedDate: newDate,
       }
 
-      const newPlayers = session.players
-      const index = newPlayers.findIndex((p) => p.id === player.id)
-      if (index != -1) {
-        newPlayers[index] = newPlayer
-        dispatch(updateSession({ ...session, players: newPlayers }))
-      }
+      updateNewPlayer(newPlayer)
     } else {
       UIkit.modal.alert(
         `${name} can not have less than 8 characters in the pool, please remove some filters`,
@@ -73,11 +81,29 @@ export const Player = ({ sessionPlayer, session, sort, massGen }) => {
     }
   }
 
+  const updateTime = (stage, time) => {
+    const newPlayer = {
+      ...sessionPlayer,
+      [stage]: time,
+    }
+
+    updateNewPlayer(newPlayer)
+  }
+
   const updatePool = (character) => {
     const ids = getExcludedCharactersIds(excludedCharacters, character)
     const newPlayer = { ...player, excludedCharacters: ids }
     dispatch(updatePlayer(newPlayer))
   }
+
+  const getTime = (time) => {
+    const times = time.split(':')
+    var m = moment().utcOffset(0)
+    m.set({ hour: 0, minute: times[0], second: times[1], millisecond: 0 })
+    return m
+  }
+
+  const stageName = type === 'Abyss' ? 'Chamber' : 'Stage'
 
   return (
     <Box>
@@ -110,11 +136,45 @@ export const Player = ({ sessionPlayer, session, sort, massGen }) => {
           <Button
             onClick={() => generateTeam()}
             className="uk-button-small uk-button-secondary uk-width-expand uk-flex-center"
+            style={{ marginBottom: 5 }}
           >
             Generate Teams
           </Button>
         </div>
       </Flex>
+      <IF condition={type && stages > 0}>
+        <div className="uk-text-bold uk-margin-small-bottom">Time Scores</div>
+        <div className="uk-grid-divider uk-child-width-expand@m" data-uk-grid>
+          {new Array(stages).fill(0).map((_, i) => (
+            <div
+              className="uk-flex uk-flex-middle uk-margin-small"
+              key={`${name}-${stageName}-${i + 1}`}
+            >
+              <p className="uk-margin-remove">{`${stageName} ${i + 1}`}</p>
+              <TimePicker
+                showHour={false}
+                className="uk-width-expand uk-margin-left"
+                value={
+                  sessionPlayer[`${stageName}-${i + 1}`]
+                    ? getTime(sessionPlayer[`${stageName}-${i + 1}`])
+                    : ''
+                }
+                placeholder="mm:ss"
+                format="mm:ss"
+                onChange={(time) => {
+                  if (time) {
+                    const m = time.minutes()
+                    const s = time.seconds()
+                    updateTime(`${stageName}-${i + 1}`, `${m}:${s}`)
+                  } else {
+                    updateTime(`${stageName}-${i + 1}`, ``)
+                  }
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      </IF>
       <IF condition={firstTeam?.length}>
         <Grid className="yes-grid uk-margin-small">
           <CharacterList characters={firstTeam} text="First Team" type="map" />

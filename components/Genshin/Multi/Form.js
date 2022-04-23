@@ -15,6 +15,7 @@ import {
 import { Box, Button, PlayerButton } from '../styled'
 
 import uuid from 'helpers/uuid'
+import { stageTypes } from '../constants'
 
 export const Form = () => {
   const { players: statePlayers } = useSelector((state) => state.genshinmulti)
@@ -24,6 +25,8 @@ export const Form = () => {
   const [players, setPlayers] = useState([])
   const [shownPlayers, setShownPlayers] = useState([])
   const [showList, setShowList] = useState(false)
+  const [type, setType] = useState('')
+  const [stageCount, setStageCount] = useState(2)
 
   const createNewSession = () => {
     const id = uuid()
@@ -52,6 +55,8 @@ export const Form = () => {
       elements: [],
       weapons: [],
       rarity: 0,
+      type,
+      stages: type === 'Abyss' ? 3 : type === 'Domains' ? 1 : stageCount,
     }
 
     setName('')
@@ -81,6 +86,48 @@ export const Form = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+        </div>
+        <h5 className="uk-h5 uk-margin-remove-top uk-margin-remove-bottom">
+          Select Type Of Stages
+        </h5>
+        <div className="uk-margin-small">
+          {stageTypes.map((stage) => (
+            <label key={stage.name} className="uk-flex uk-flex-middle">
+              <input
+                className="uk-radio uk-margin-small-right"
+                type="radio"
+                name="radio2"
+                checked={type === stage.name}
+                onChange={() => setType(stage.name)}
+              />
+              <div>
+                {stage.name}
+                <div className="uk-text-small">{stage.desc}</div>
+              </div>
+            </label>
+          ))}
+
+          <IF condition={type === 'Others'}>
+            <div className="uk-margin">
+              <div className="uk-form-label uk-margin-bottom-small">
+                Number of Stages (Max: 2, Min: 4)
+              </div>
+              <div className="uk-form-controls">
+                <input
+                  className="uk-input"
+                  type="number"
+                  placeholder="Input Stage Count"
+                  value={stageCount}
+                  min={2}
+                  max={4}
+                  onChange={(e) => {
+                    const num = Number(e.target.value)
+                    setStageCount(num < 2 ? 2 : num > 4 ? 4 : num)
+                  }}
+                />
+              </div>
+            </div>
+          </IF>
         </div>
         <h5 className="uk-h5 uk-margin-remove-top uk-margin-remove-bottom">
           Players
