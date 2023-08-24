@@ -26,7 +26,12 @@ const Chat = () => {
         <div className="starrail-receiver-name starrail-chat-bold">
           {headerReceiver}
         </div>
-        <div className="starrail-chat-gray">{headerTag}</div>
+        <div className="starrail-chat-gray">
+          {headerTag}{' '}
+          <a href="https://codepen.io/flavea" className="starrail-chat-gray">
+            ©
+          </a>
+        </div>
       </div>
 
       <div className="starrail-chat-body">
