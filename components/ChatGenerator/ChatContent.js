@@ -28,7 +28,10 @@ const Chat = () => {
         </div>
         <div className="starrail-chat-gray">
           {headerTag}{' '}
-          <a href="https://codepen.io/flavea" className="starrail-chat-gray">
+          <a
+            href="https://codepen.io/flavea"
+            className="starrail-chat-gray DO-NOT-REMOVE-PLS"
+          >
             ©
           </a>
         </div>
