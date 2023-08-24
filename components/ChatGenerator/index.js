@@ -1,6 +1,5 @@
 import { Container, Content } from './styled'
 import 'cropperjs/dist/cropper.css'
-import OrientationWarning from 'components/OrientationWarning'
 import Message from './Message'
 import IF from 'components/If'
 import Receiver from './Receiver'
@@ -8,6 +7,8 @@ import uuid from 'helpers/uuid'
 import { useChatStore } from './store'
 import ChatContent from './ChatContent'
 import { useEffect } from 'react'
+import UIkit from 'uikit'
+import How from './How'
 
 export const ChatGenerator = () => {
   const {
@@ -74,13 +75,21 @@ export const ChatGenerator = () => {
     }
   }, [type])
 
+  useEffect(() => {
+    UIkit.modal(document.getElementById('ao3-how'))
+  }, [])
+
   return (
     <>
-      <OrientationWarning mobileOnly={false} />
+      <div id="ao3-how">
+        <div className="uk-modal-dialog uk-modal-body">
+          <How />
+        </div>
+      </div>
       <Container>
         <Content className="uk-background-muted uk-padding uk-overflow-auto uk-text-small">
           <div className="uk-text-bold">Layout:</div>
-          <div className="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+          <div className="uk-margin">
             <label>
               <input
                 className="uk-radio"
@@ -90,8 +99,13 @@ export const ChatGenerator = () => {
                 onChange={() => setData({ layout: 'not-ao3' })}
                 style={{ marginRight: 5 }}
               />{' '}
-              Star Rail (for non-AO3 sites)
+              Star Rail (for non-AO3 sites) -{' '}
+              <a href="https://codepen.io/flavea/pen/wvxwqjZ" target="_blank">
+                CSS Code
+              </a>
             </label>
+          </div>
+          <div className="uk-margin">
             <label>
               <input
                 className="uk-radio"
@@ -101,7 +115,19 @@ export const ChatGenerator = () => {
                 onChange={() => setData({ layout: 'ao3' })}
                 style={{ marginRight: 5 }}
               />
-              Star Rail (for AO3)
+              Star Rail (for AO3)-{' '}
+              <a href="https://codepen.io/flavea/pen/rNoOVaY" target="_blank">
+                CSS Code
+              </a>{' '}
+              ||{' '}
+              <button
+                onClick={() =>
+                  UIkit.modal(document.getElementById('ao3-how')).show()
+                }
+                className="uk-link"
+              >
+                How to Use
+              </button>
             </label>
           </div>
           <div className="uk-text-bold">Chat Type:</div>

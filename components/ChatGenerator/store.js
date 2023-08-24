@@ -23,17 +23,22 @@ export const useChatStore = create(
           id: 2,
           sender: 0,
           type: 'text',
-          message:
-            'Please tell me, my precious love, that you will come to me soon.',
+          message: 'Please tell me, my precious love',
         },
         {
           id: 3,
+          sender: 0,
+          type: 'text',
+          message: 'that you will come to me soon.',
+        },
+        {
+          id: 4,
           sender: 1,
           type: 'notif',
           message: 'sends a location map.',
         },
         {
-          id: 4,
+          id: 5,
           sender: 1,
           type: 'image',
           message: 'https://placekitten.com/200/100',

@@ -274,8 +274,6 @@ export const StarRailAO3 = styled.section`
     height: 60px;
     border-radius: 50%;
     float: left;
-    object-cover: cover;
-    flex-shrink: 0;
   }
 
   .starrail-chat
@@ -287,7 +285,6 @@ export const StarRailAO3 = styled.section`
     height: 60px;
     border-radius: 50%;
     float: left;
-    object-cover: cover;
   }
 
   .starrail-chat
@@ -364,7 +361,7 @@ export const StarRailAO3 = styled.section`
     margin-left: 0;
     margin-right: 10px;
     float: right;
-    max-width: calc(100% - 70px);
+    max-width: 100%;
   }
 
   .starrail-chat

@@ -111,7 +111,7 @@ export const ChatContent = () => {
   const convert = () => {
     const img = document.getElementById('image')
     if (img) {
-      setCode(html_beautify(img.innerHTML))
+      setCode(html_beautify(img.innerHTML + '<p>Your Story Here</p>'))
     }
   }
 
