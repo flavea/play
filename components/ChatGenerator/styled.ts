@@ -374,18 +374,23 @@ export const StarRailAO3 = styled.section`
 `
 
 export const Container = styled.section`
-  display: grid;
-  grid-auto-columns: 1fr;
-  grid-template-columns: 0.75fr 1.25fr;
-  grid-template-rows: 1fr;
-  grid-template-areas: '. .';
-  width: 100%;
-  height: 100%;
+  @media only screen and (min-width: 768px) {
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-template-columns: 0.75fr 1.25fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: '. .';
+    width: 100%;
+    height: 100%;
+  }
 `
 
 export const Content = styled.div`
   width: 100%;
-  height: 100vh;
+
+  @media only screen and (min-width: 768px) {
+    height: 100vh;
+  }
 
   .upload-form {
     border: 1px solid #ccc;
