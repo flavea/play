@@ -73,7 +73,7 @@ export const ChatGenerator = () => {
         headerTag: 'Group Tagline',
       })
     }
-  }, [type])
+  }, [type, receivers])
 
   useEffect(() => {
     UIkit.modal(document.getElementById('ao3-how'))

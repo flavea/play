@@ -63,8 +63,8 @@ export const How = () => {
         </li>
         <li>
           Switch to Rich Text Mode, the chat will look messy but it will okay
-          once it's on preview/published as long as you don't mess with that
-          part!
+          once it&apos;s on preview/published as long as you don&apos;t mess
+          with that part!
           <p>
             <img
               src="https://images2.imgbox.com/b8/1e/8OgVWMZw_o.png"
